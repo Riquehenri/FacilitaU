@@ -10,11 +10,11 @@ Bem-vindo ao **Facilita[U]**, um site desenvolvido para ajudar jovens universit�
 - **Educação financeira**: Acesse conteúdos educativos sobre finanças pessoais.
 
 ## 🛠️ Tecnologias Utilizadas
-- **Frontend**: React.js / Vue.js
-- **Backend**: Node.js com Express / Django
-- **Banco de Dados**: PostgreSQL / MongoDB
-- **Inteligência Artificial**: OpenAI API / TensorFlow
-- **Autenticação**: Firebase Auth / JWT
+- **Frontend**: 
+- **Backend**: 
+- **Banco de Dados**: 
+- **Inteligência Artificial**: 
+- **Autenticação**: 
 
 # Integrantes:
 Éden Samuel Bozza Hernandes,
