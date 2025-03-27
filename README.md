@@ -1,2 +1,2 @@
-# FaculitaU
+# FacilitaU
 Projeto da Faculdade
