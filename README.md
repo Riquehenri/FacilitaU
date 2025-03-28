@@ -57,7 +57,7 @@ O projeto utiliza um banco de dados MySQL chamado `facilitau_db`. As principais 
 - `Comunicado`: Armazena comunicados, com referência a uma faculdade e um professor.
 - `Tarefa_Evento`: Registra tarefas e eventos de estudantes.
 - `Prazo_Institucional`: Armazena prazos institucionais (ainda não implementado no frontend).
-- **View** `ComunicadosPorFaculdade`: Facilita a consulta de comunicados por faculdade.
+- `ComunicadosPorFaculdade`: Facilita a consulta de comunicados por faculdade.
 
 Para configurar o banco de dados, importe o script SQL (se disponível) ou crie as tabelas manualmente no phpMyAdmin.
 
