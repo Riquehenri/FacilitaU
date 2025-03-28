@@ -1,6 +1,3 @@
-Vou criar um arquivo `CONTRIBUTING.md` para o projeto "FacilitaU" no GitHub. Este documento, conhecido como "Contributing Standards" ou "Guia de Contribuição", define as diretrizes para que outras pessoas possam contribuir com o projeto de forma clara e organizada. Ele geralmente inclui informações sobre como configurar o ambiente, o processo de envio de contribuições, padrões de código e como reportar problemas.
-
----
 
 # Contribuindo com o FacilitaU
 
