@@ -82,6 +82,10 @@ Para configurar o banco de dados, importe o script SQL (se disponível) ou crie 
 - Adicionar suporte a filtros e pesquisas (ex.: buscar tarefas por data).
 
 ## 👥 Integrantes
-- [Seu Nome](https://github.com/seu-usuario) *(substitua pelo seu nome e link do GitHub)*
-
+# Integrantes:
+- [Éden Samuel Bozza Hernandes](https://github.com/Eden-code01),
+- [Fernando Lopes Duarte](https://github.com/Fernando-Lopes1),
+- [Henrique Ricardo](https://github.com/Riquehenri),
+- [Felipe Carneiro](https://github.com/FelipeCarneiroRibeiro),
+- [Hugo Takeda](https://github.com/hugotakeda).
 
