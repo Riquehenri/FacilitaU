@@ -1,7 +1,3 @@
-Vou criar um arquivo `README.md` para o projeto "FacilitaU" que você desenvolveu em PHP puro, adaptando o exemplo que você forneceu. Como o seu projeto é diferente do exemplo (o seu foca em gerenciamento acadêmico, não financeiro), ajustarei as funcionalidades e informações para refletir o que foi implementado. Também incluirei os detalhes técnicos do projeto e a estrutura atual.
-
----
-
 # Facilita[U]
 
 Bem-vindo ao **Facilita[U]**, um sistema web desenvolvido para auxiliar estudantes universitários no gerenciamento de suas atividades acadêmicas. Nossa plataforma permite gerenciar faculdades, estudantes, comunicados, tarefas e eventos, facilitando a organização e a comunicação dentro do ambiente universitário.
@@ -82,7 +78,7 @@ Para configurar o banco de dados, importe o script SQL (se disponível) ou crie 
 - Adicionar suporte a filtros e pesquisas (ex.: buscar tarefas por data).
 
 ## 👥 Integrantes
-# Integrantes:
+
 - [Éden Samuel Bozza Hernandes](https://github.com/Eden-code01),
 - [Fernando Lopes Duarte](https://github.com/Fernando-Lopes1),
 - [Henrique Ricardo](https://github.com/Riquehenri),
