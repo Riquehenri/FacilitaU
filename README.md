@@ -17,9 +17,9 @@ Bem-vindo ao **Facilita[U]**, um site desenvolvido para ajudar jovens universit�
 - **Autenticação**: 
 
 # Integrantes:
-Éden Samuel Bozza Hernandes,
-Fernando Lopes Duarte,
-Henrique Ricardo,
-Felipe Carneiro,
-Hugo Takeda
+[Éden Samuel Bozza Hernandes](https://github.com/Eden-code01),
+[Fernando Lopes Duarte](https://github.com/Fernando-Lopes1),
+[Henrique Ricardo](https://github.com/Riquehenri),
+[Felipe Carneiro](https://github.com/FelipeCarneiroRibeiro),
+[Hugo Takeda](https://github.com/hugotakeda).
 
