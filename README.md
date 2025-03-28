@@ -84,36 +84,4 @@ Para configurar o banco de dados, importe o script SQL (se disponível) ou crie 
 ## 👥 Integrantes
 - [Seu Nome](https://github.com/seu-usuario) *(substitua pelo seu nome e link do GitHub)*
 
----
 
-### Instruções para Usar o README
-
-1. **Crie o Arquivo `README.md`:**
-   - Abra o Notepad++.
-   - Copie e cole o conteúdo acima.
-   - Substitua a seção "Integrantes" com seu nome e link do GitHub (ou dos seus colegas, se for um projeto em grupo).
-   - Salve o arquivo como `README.md` no diretório `C:\xampp\htdocs\facilitau`.
-
-2. **Envie para o GitHub:**
-   - Crie um repositório no GitHub chamado `facilitau`.
-   - Inicialize um repositório Git no diretório `C:\xampp\htdocs\facilitau`:
-     ```
-     cd C:\xampp\htdocs\facilitau
-     git init
-     git add .
-     git commit -m "Primeiro commit do FacilitaU"
-     git remote add origin https://github.com/seu-usuario/facilitau.git
-     git push -u origin main
-     ```
-   - O `README.md` será exibido automaticamente na página principal do repositório no GitHub.
-
----
-
-### Próximos Passos no Desenvolvimento
-
-Agora que temos um `README.md` pronto para o GitHub, podemos continuar desenvolvendo o "FacilitaU". Algumas sugestões:
-- **Autenticação:** Adicionar um sistema de login para diferenciar estudantes, professores e coordenadores.
-- **Cadastrar Prazos Institucionais:** Criar uma página para gerenciar a tabela `Prazo_Institucional`.
-- **Melhorias na Interface:** Adicionar mais validações ou melhorar o design.
-
-**O que você acha?** Quer implementar uma dessas funcionalidades, ou prefere ajustar algo no projeto atual (ex.: melhorar o design, adicionar mais validações)? Me avise como prosseguimos!
