@@ -4,13 +4,11 @@ Bem-vindo ao **Facilita[U]**, um sistema web desenvolvido para auxiliar estudant
 uma assistente virtual para lhe auxiliar a tirar duvidas em relação a processos universitários, documentação, atividades futuras e tambem no gerenciamento de sua vida cotidiana sendo possivel solicitar
 a assistente para que cadastre tarefas e eventos futuros e organize-os em uma agenda.
 
-## 🌟 Funcionalidades
-- **Gerenciamento de Faculdades**: Liste todas as faculdades cadastradas com informações detalhadas.
-- **Cadastro de Estudantes**: Registre novos estudantes, associando-os a uma faculdade.
-- **Comunicados por Faculdade**: Visualize comunicados específicos de cada faculdade, usando uma view no banco de dados.
-- **Cadastro de Comunicados**: Permita que professores cadastrem comunicados para suas faculdades.
-- **Gerenciamento de Tarefas/Eventos**: Cadastre e liste tarefas ou eventos associados a estudantes.
-- **Interface Simples e Intuitiva**: Navegue facilmente pelas funcionalidades com um menu centralizado.
+## 🌟  Principais Funcionalidades 
+- **Assistente Virtual**: Responde dúvidas academicas; consulta documentos necessarios para entrega; Auxilia na organização academiaca; cadastra eventos e tarefas a pedido do estudante.
+- **Gerenciamento de Agenda e Tarefas**: Estudantes podem cadastrar eventos e tarefas; possibilidade de receber lembretes e notificações; planejamento de estudos personalizados.
+- **Publicação de Avisos e Oportunidades**: Professores e coordenadores podem publicar avisos,eventos e oportunidades de emprego; Estudantes recebem notificações sobre novas publiçações
+
 
 ## 🛠️ Tecnologias Utilizadas
 - **Frontend**: HTML, CSS
