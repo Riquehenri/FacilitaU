@@ -1,6 +1,8 @@
 # Facilita[U]
 
-Bem-vindo ao **Facilita[U]**, um sistema web desenvolvido para auxiliar estudantes universitários no gerenciamento de suas atividades acadêmicas. Nossa plataforma permite gerenciar faculdades, estudantes, comunicados, tarefas e eventos, facilitando a organização e a comunicação dentro do ambiente universitário.
+Bem-vindo ao **Facilita[U]**, um sistema web desenvolvido para auxiliar estudantes universitários no gerenciamento de suas atividades acadêmicas. Nossa plataforma permite que o estudante utlize 
+uma assistente virtual para lhe auxiliar a tirar duvidas em relação a processos universitários, documentação, atividades futuras e tambem no gerenciamento de sua vida cotidiana sendo possivel solicitar
+a assistente para que cadastre tarefas e eventos futuros e organize-os em uma agenda.
 
 ## 🌟 Funcionalidades
 - **Gerenciamento de Faculdades**: Liste todas as faculdades cadastradas com informações detalhadas.
@@ -33,21 +35,6 @@ facilitau/
 └── style.css               # Estilização básica da interface
 ```
 
-## 🚀 Como Executar o Projeto
-Siga os passos abaixo para rodar o projeto localmente:
-
-1. **Pré-requisitos**:
-   - Ter o [XAMPP](https://www.apachefriends.org/) instalado.
-   - Um editor de texto como o Notepad++.
-
-2. **Configuração do Ambiente**:
-   - Copie a pasta `facilitau` para o diretório `htdocs` do XAMPP (ex.: `C:\xampp\htdocs\facilitau`).
-   - Inicie o Apache e o MySQL no XAMPP Control Panel.
-   - Certifique-se de que o banco de dados `facilitau_db` está criado no MySQL e contém as tabelas necessárias (`Faculdade`, `Estudante`, `Professor`, `Comunicado`, `Tarefa_Evento`, etc.).
-
-3. **Acesse o Projeto**:
-   - Abra o navegador e acesse `http://localhost/facilitau`.
-   - Navegue pelas funcionalidades usando o menu na página inicial.
 
 ## 📋 Banco de Dados
 O projeto utiliza um banco de dados MySQL chamado `facilitau_db`. As principais tabelas são:
