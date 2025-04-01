@@ -36,13 +36,13 @@ facilitau/
 
 ## 📋 Banco de Dados
 O projeto utiliza um banco de dados MySQL chamado `facilitau_db`. As principais tabelas são:
-- `Faculdade`: Armazena informações das faculdades (ex.: nome, sigla, cidade).
-- `Estudante`: Registra estudantes, associados a uma faculdade.
-- `Professor`: Registra professores, associados a uma faculdade.
-- `Comunicado`: Armazena comunicados, com referência a uma faculdade e um professor.
-- `Tarefa_Evento`: Registra tarefas e eventos de estudantes.
-- `Prazo_Institucional`: Armazena prazos institucionais (ainda não implementado no frontend).
-- `ComunicadosPorFaculdade`: Facilita a consulta de comunicados por faculdade.
+- `Usuários`: 
+- `Documentos`: 
+- `Planejamento_Estudos`: 
+- `Avisos`: 
+- `Tarefas_Evento`: 
+- `Notificações`: 
+- `Interações_Assistente`: 
 
 Para configurar o banco de dados, importe o script SQL (se disponível) ou crie as tabelas manualmente no phpMyAdmin.
 
