@@ -14,7 +14,7 @@ a assistente para que cadastre tarefas e eventos futuros e organize-os em uma ag
 - **Frontend**: HTML, CSS
 - **Backend**: PHP (puro, sem frameworks)
 - **Banco de Dados**: MySQL (usando o XAMPP)
-- **Ambiente de Desenvolvimento**: XAMPP, VScode
+- **Ambiente de Desenvolvimento**: XAMPP, Notepad++
 - **Autenticação**: Não implementada (pode ser adicionada com sessões PHP)
 
 ## 📂 Estrutura do Projeto
