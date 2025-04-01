@@ -36,7 +36,7 @@ facilitau/
 
 ## 📋 Banco de Dados
 O projeto utiliza um banco de dados MySQL chamado `facilitau_db`. As principais tabelas são:
-- `Usuários`: Armazena informações sobre os usuários do sistema, podendo ser estudantes, professores ou coodenador acadêmico.
+- `Usuários`: Armazena informações sobre os usuários do sistema, podendo ser estudantes, professores ou coordenador acadêmico.
 - `Documentos`: Armazena arquivos relacionados aos estudantes ou professores, como certificados, tarefas entregues, ou outros documentos importantes.
 - `Planejamento_Estudos`: Armazena informações sobre o planejamento de estudos dos estudantes, podendo incluir dados como cronogramas, matérias a estudar, e prazos.
 - `Avisos`: Armazena notificações ou comunicados importantes enviados aos usuários.
