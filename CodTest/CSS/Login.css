@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap'); /* Example font */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f2f5; /* Light background for the page */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    background-color: #fff; /* White background for the form side */
+    max-width: 900px; /* Adjust as needed */
+    width: 90%;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Important for border-radius on children */
+}
+
+/* Left Section Styling */
+.info-section {
+    flex: 1;
+    background-color: #3b5998; /* Dark blue from image */
+    color: #fff;
+    padding: 50px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+}
+
+.info-section .logo {
+    color: #2ecc71; /* Green color for logo */
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 2.5em; /* Larger logo size */
+}
+
+.info-section h2 {
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.info-section p {
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.signup-box, .login-box {
+    background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: auto; /* Pushes the box towards the bottom */
+}
+.login-box { /* Specific style for the login box when shown */
+     margin-top: 20px;
+}
+
+
+.signup-box p, .login-box p {
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+/* Right Section Styling */
+.form-section {
+    flex: 1;
+    padding: 50px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+}
+
+.form-section h2 {
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 1.8em;
+}
+
+.form-section p {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 0.95em;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    color: #555;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.input-group .input-icon {
+    position: absolute;
+    left: 15px;
+    top: 70%; /* Adjust vertical position */
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px 12px 40px; /* Left padding for icon */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.95em;
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #3b5998; /* Highlight border on focus */
+}
+
+.input-group .password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 70%; /* Adjust vertical position */
+    transform: translateY(-50%);
+    color: #aaa;
+    cursor: pointer;
+}
+
+.forgot-password {
+    display: block; /* Make it block to position easily */
+    text-align: right;
+    margin-top: 8px; /* Space above the link */
+    font-size: 0.85em;
+    color: #3b5998;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+    color: #2a4374; /* Darker blue on hover */
+}
+
+/* Button Styling */
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-align: center;
+    display: block; /* Make buttons block level */
+    width: 100%; /* Make buttons full width within their container */
+}
+
+.btn-primary { /* Login/Register button */
+    background-color: #3b5998;
+    color: #fff;
+    margin-top: 10px; /* Space above the main action button */
+}
+
+.btn-primary:hover {
+    background-color: #2a4374; /* Darker blue on hover */
+}
+
+.btn-secondary { /* Sign Up/Switch button */
+    background-color: #fff;
+    color: #3b5998; /* Text color matches the primary blue */
+    border: 1px solid #ddd; /* Subtle border */
+}
+
+.btn-secondary:hover {
+    background-color: #f5f5f5; /* Slightly grey background on hover */
+}
+
+/* Utility Class */
+.hidden {
+    display: none;
+}
+
+
+/* Responsive adjustments (Optional Basic Example) */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        width: 95%;
+        max-width: 500px; /* Adjust max-width for single column */
+    }
+
+    .info-section {
+       padding: 30px 20px;
+       text-align: center; /* Center text on small screens */
+       align-items: center; /* Center items */
+    }
+     .info-section .logo {
+        font-size: 2em;
+    }
+
+    .signup-box, .login-box {
+        margin-top: 20px;
+        width: 100%; /* Make box full width */
+    }
+
+    .form-section {
+        padding: 40px 20px;
+    }
+}
