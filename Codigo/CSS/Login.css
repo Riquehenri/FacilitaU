@@ -1,0 +1,249 @@
+/* 
+ * Estilos para a página de login
+ * Layout com duas colunas: informações e formulário
+ */
+
+/* Importa fonte do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap'); 
+
+/* Reset básico */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos gerais do corpo */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f2f5; /* Fundo claro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container principal */
+.container {
+    display: flex;
+    background-color: #fff; 
+    max-width: 900px; 
+    width: 90%;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    overflow: hidden; 
+}
+
+/* --- Seção de Informações --- */
+.info-section {
+    flex: 1;
+    background-color: #3b5998; /* Azul do Facebook */
+    color: #fff;
+    padding: 50px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+}
+
+/* Estilo do logo */
+.info-section .logo {
+    color: #2ecc71; /* Verde para contraste */
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 2.5em; 
+}
+
+/* Títulos na seção de informações */
+.info-section h2 {
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* Parágrafos na seção de informações */
+.info-section p {
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Caixas de cadastro/login alternativo */
+.signup-box, .login-box {
+    background-color: rgba(255, 255, 255, 0.1); /* Fundo semi-transparente */
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: auto; 
+}
+.login-box { 
+     margin-top: 20px;
+}
+
+/* Texto dentro das caixas */
+.signup-box p, .login-box p {
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+/* --- Seção de Formulário --- */
+.form-section {
+    flex: 1;
+    padding: 50px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+}
+
+/* Títulos na seção de formulário */
+.form-section h2 {
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 1.8em;
+}
+
+/* Parágrafos na seção de formulário */
+.form-section p {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 0.95em;
+}
+
+/* Grupos de input */
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+/* Labels dos inputs */
+.input-group label {
+    display: block;
+    color: #555;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+/* Ícones dentro dos inputs */
+.input-group .input-icon {
+    position: absolute;
+    left: 15px;
+    top: 70%; 
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+/* Estilo dos inputs */
+.input-group input {
+    width: 100%;
+    padding: 12px 15px 12px 40px; /* Espaço para o ícone */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.95em;
+    transition: border-color 0.3s ease;
+}
+
+/* Efeito focus para inputs */
+.input-group input:focus {
+    outline: none;
+    border-color: #3b5998; 
+}
+
+/* Ícone para mostrar/esconder senha */
+.input-group .password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 70%; 
+    transform: translateY(-50%);
+    color: #aaa;
+    cursor: pointer;
+}
+
+/* Link "esqueci a senha" */
+.forgot-password {
+    display: block; 
+    text-align: right;
+    margin-top: 8px; 
+    font-size: 0.85em;
+    color: #3b5998;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* Efeito hover para o link */
+.forgot-password:hover {
+    text-decoration: underline;
+    color: #2a4374; 
+}
+
+/* Estilo base para botões */
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-align: center;
+    display: block; 
+    width: 100%; 
+}
+
+/* Botão primário (login) */
+.btn-primary { 
+    background-color: #3b5998;
+    color: #fff;
+    margin-top: 10px; 
+}
+
+/* Efeito hover para botão primário */
+.btn-primary:hover {
+    background-color: #2a4374; 
+}
+
+/* Botão secundário */
+.btn-secondary { 
+    background-color: #fff;
+    color: #3b5998; 
+    border: 1px solid #ddd; 
+}
+
+/* Efeito hover para botão secundário */
+.btn-secondary:hover {
+    background-color: #f5f5f5; 
+}
+
+/* Classe para esconder elementos */
+.hidden {
+    display: none;
+}
+
+/* Responsividade para tablets */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Empilha as seções */
+        width: 95%;
+        max-width: 500px; 
+    }
+
+    /* Ajustes de padding e alinhamento */
+    .info-section {
+       padding: 30px 20px;
+       text-align: center; 
+       align-items: center; 
+    }
+     .info-section .logo {
+        font-size: 2em;
+    }
+
+    /* Ajustes para as caixas de cadastro/login */
+    .signup-box, .login-box {
+        margin-top: 20px;
+        width: 100%; 
+    }
+
+    /* Ajustes para a seção do formulário */
+    .form-section {
+        padding: 40px 20px;
+    }
+}

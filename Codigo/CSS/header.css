@@ -1,0 +1,157 @@
+/* 
+ * Estilos para o cabeçalho da aplicação
+ * Cabeçalho fixo no topo com logo, botão de voltar e informações do usuário
+ */
+
+/* Importa fonte do Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+/* Define variáveis CSS */
+:root {
+  --primary-color: #3b5998; /* Cor primária (azul) */
+  --secondary-color: #2ecc71; /* Cor secundária (verde) */
+  --text-light: #fff; /* Texto claro */
+  --text-dark: #333; /* Texto escuro */
+  --header-height: 70px; /* Altura do cabeçalho */
+  --danger-color: #e74c3c; /* Cor para ações perigosas (vermelho) */
+}
+
+/* Estilo do cabeçalho principal */
+.main-header {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  padding: 0 20px;
+  position: fixed; /* Fixa no topo da página */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  z-index: 1000; /* Garante que fique acima de outros elementos */
+  display: flex;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Container do cabeçalho */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Estilo do link do logo */
+.logo-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Ícone do logo */
+.logo-icon {
+  color: var(--secondary-color);
+  font-size: 1.8em;
+}
+
+/* Texto do logo */
+.logo-text {
+  font-weight: 700;
+  margin: 0;
+  font-size: 1.5em;
+}
+
+/* Botão de voltar */
+.btn-back {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.3s ease;
+  margin-right: auto;
+  margin-left: 20px;
+}
+
+/* Efeito hover para o botão de voltar */
+.btn-back:hover {
+  background-color: #27ae60;
+}
+
+/* Área de informações do usuário */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Detalhes do usuário (nome e email) */
+.user-details {
+  text-align: right;
+}
+
+/* Nome do usuário */
+.user-name {
+  font-weight: 600;
+  font-size: 0.95em;
+}
+
+/* Email do usuário */
+.user-email {
+  font-size: 0.85em;
+  opacity: 0.9;
+}
+
+/* Botão de logout */
+.btn-logout {
+  background-color: var(--danger-color);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.3s ease;
+}
+
+/* Efeito hover para o botão de logout */
+.btn-logout:hover {
+  background-color: #c0392b;
+}
+
+/* Espaço para o conteúdo principal (evita que fique escondido atrás do cabeçalho) */
+.main-content {
+  margin-top: var(--header-height);
+  padding: 20px;
+}
+
+/* Responsividade para tablets */
+@media (max-width: 768px) {
+  .user-details {
+    display: none; /* Esconde detalhes do usuário em telas pequenas */
+  }
+
+  .btn-logout {
+    padding: 8px 12px;
+  }
+
+  /* Esconde texto dos botões, mantendo apenas ícones */
+  .btn-logout span,
+  .btn-back span {
+    display: none;
+  }
+}

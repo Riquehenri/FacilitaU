@@ -1,0 +1,167 @@
+/* 
+ * Estilos para a página de listagem de avisos
+ * Utiliza variáveis CSS para temas claro/escuro e tabela responsiva
+ */
+
+/* Define variáveis para o tema escuro (padrão) */
+:root {
+  --bg-primary: #212121; /* Fundo principal */
+  --bg-secondary: #2d2d2d; /* Fundo secundário */
+  --bg-tertiary: #3a3a3a; /* Fundo terciário */
+  --text-primary: #e0e0e0; /* Texto principal */
+  --text-secondary: #cccccc; /* Texto secundário */
+  --accent-color: #4a90e2; /* Cor de destaque */
+  --success-color: #2ecc71; /* Cor de sucesso */
+  --error-color: #e74c3c; /* Cor de erro */
+  --border-color: #424242; /* Cor das bordas */
+}
+
+/* Tema claro - sobrescreve as variáveis */
+body.light-mode {
+  --bg-primary: #f4f4f4;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #eaeaea;
+  --text-primary: #1e1e1e;
+  --text-secondary: #555555;
+  --accent-color: #1e88e5;
+  --success-color: #27ae60;
+  --error-color: #c0392b;
+  --border-color: #cccccc;
+}
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Estilos gerais do corpo */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding: 2rem;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Estilo para títulos h2 */
+h2 {
+  color: var(--accent-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+/* --- Estilo da tabela --- */
+table {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.4s ease;
+  animation: fadeIn 0.4s ease-in-out; /* Animação de entrada */
+}
+
+/* Células da tabela */
+th,
+td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Cabeçalho da tabela */
+th {
+  background-color: var(--bg-tertiary);
+  color: var(--accent-color);
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+/* Efeito hover para linhas */
+tr:hover {
+  background-color: rgba(74, 144, 226, 0.05);
+}
+
+/* Remove borda da última linha */
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* Mensagem quando não há avisos */
+p {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 2rem;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  max-width: 800px;
+  margin: 0 auto;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Destaque para a primeira coluna (tipo de aviso) */
+td:first-child {
+  font-weight: 500;
+  color: var(--accent-color);
+}
+
+/* Animação de fadeIn */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsividade para tablets */
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+
+  /* Torna a tabela scrollable horizontalmente */
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  /* Ajuste de padding */
+  th,
+  td {
+    padding: 0.8rem;
+  }
+}
+
+/* Responsividade para celulares */
+@media (max-width: 480px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  /* Ajuste de tamanho de fonte e padding */
+  th,
+  td {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  th {
+    font-size: 0.75rem;
+  }
+}

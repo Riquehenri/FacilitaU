@@ -1,0 +1,460 @@
+/* 
+ * Estilos para a interface de chat com IA
+ * Layout com barra lateral e área de conversa
+ */
+
+/* Define variáveis CSS para o tema escuro */
+:root {
+    --bg-primary: #212121; /* Fundo principal */
+    --bg-secondary: #2d2d2d; /* Fundo da barra lateral */
+    --bg-tertiary: #3a3a3a; /* Fundo de botões/hover */
+    --text-primary: #e0e0e0; /* Texto principal */
+    --text-secondary: #b0b0b0; /* Texto secundário */
+    --accent-color: #4a90e2; /* Cor de destaque (azul) */
+    --user-message-bg: #30415d; /* Fundo mensagens do usuário */
+    --bot-message-bg: #3a3a3a; /* Fundo mensagens do bot */
+    --border-color: #424242; /* Cor das bordas */
+    --scrollbar-thumb: #555; /* Cor do scrollbar */
+    --scrollbar-track: var(--bg-secondary); /* Fundo do scrollbar */
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Estilos gerais do corpo */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden; /* Impede scroll da página */
+}
+
+/* Container principal do aplicativo */
+.app-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    max-width: 1600px;
+    max-height: 100vh;
+    background-color: var(--bg-primary);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+/* --- Estilos da barra lateral --- */
+.sidebar {
+    width: 260px;
+    background-color: var(--bg-secondary);
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border-color);
+    flex-shrink: 0; /* Impede que encolha */
+}
+
+/* Cabeçalho da barra lateral */
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    padding-left: 5px;
+}
+
+/* Logo na barra lateral */
+.sidebar-header .logo {
+    font-size: 1.5em;
+    color: var(--accent-color);
+}
+
+/* Título na barra lateral */
+.sidebar-header h2 {
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+/* Botão de novo chat */
+.new-chat-btn {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 0.95em;
+    margin-bottom: 25px;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Efeito hover para o botão */
+.new-chat-btn:hover {
+    background-color: var(--bg-tertiary);
+}
+
+/* Área de histórico de chats */
+.chat-history {
+    flex-grow: 1; /* Ocupa todo espaço disponível */
+    overflow-y: auto; /* Scroll vertical quando necessário */
+    padding-right: 5px;
+}
+
+/* Personalização da barra de scroll */
+.chat-history::-webkit-scrollbar {
+    width: 6px;
+}
+.chat-history::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: 3px;
+}
+.chat-history::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 3px;
+}
+.chat-history::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+/* Título da seção de histórico */
+.history-title {
+    font-size: 0.8em;
+    color: var(--text-secondary);
+    margin-top: 15px;
+    margin-bottom: 8px;
+    padding-left: 5px;
+    text-transform: uppercase;
+}
+
+/* Lista de chats anteriores */
+.chat-history ul {
+    list-style: none;
+}
+
+/* Itens da lista de histórico */
+.chat-history li a {
+    display: block;
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: 8px 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background-color 0.2s ease;
+}
+
+/* Efeito hover para itens do histórico */
+.chat-history li a:hover {
+    background-color: var(--bg-tertiary);
+}
+
+/* Rodapé da barra lateral */
+.sidebar-footer {
+    margin-top: auto; /* Empurra para baixo */
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Botões do rodapé */
+.sidebar-btn {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    padding: 10px 5px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.95em;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.2s ease;
+}
+
+/* Efeito hover para botões do rodapé */
+.sidebar-btn:hover {
+    background-color: var(--bg-tertiary);
+}
+
+/* Ícones dos botões */
+.sidebar-btn i {
+    width: 20px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+/* Badge "novo" */
+.new-badge {
+    background-color: var(--accent-color);
+    color: white;
+    font-size: 0.7em;
+    padding: 2px 5px;
+    border-radius: 4px;
+    margin-left: 8px;
+    font-weight: bold;
+}
+
+/* --- Área do Chat --- */
+.chat-area {
+    flex-grow: 1; /* Ocupa todo espaço restante */
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-primary);
+    height: 100vh;
+    position: relative;
+}
+
+/* Mensagem de boas-vindas (quando não há conversa) */
+.welcome-message {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary);
+}
+
+/* Ícone da mensagem de boas-vindas */
+.welcome-message .welcome-icon {
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: var(--accent-color);
+}
+
+/* Container de mensagens */
+.messages-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Personalização da barra de scroll das mensagens */
+.messages-container::-webkit-scrollbar {
+    width: 8px;
+}
+.messages-container::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: 4px;
+}
+.messages-container::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 4px;
+}
+.messages-container::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+/* Estilo das mensagens */
+.message {
+    padding: 12px 18px;
+    border-radius: 18px;
+    max-width: 70%;
+    line-height: 1.5;
+    font-size: 0.95em;
+    word-wrap: break-word;
+}
+
+/* Mensagens do usuário */
+.message.user {
+    background-color: var(--user-message-bg);
+    color: var(--text-primary);
+    align-self: flex-end; /* Alinha à direita */
+    border-bottom-right-radius: 5px;
+}
+
+/* Mensagens do bot */
+.message.bot {
+    background-color: var(--bot-message-bg);
+    color: var(--text-primary);
+    align-self: flex-start; /* Alinha à esquerda */
+    border-bottom-left-radius: 5px;
+}
+
+/* Formulário de envio de mensagens */
+.message-form {
+    display: flex;
+    padding: 15px 40px;
+    background-color: var(--bg-primary);
+    gap: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Wrapper do input */
+.input-wrapper {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-secondary);
+    border-radius: 25px;
+    padding: 0 10px;
+    border: 1px solid var(--border-color);
+}
+
+/* Efeito quando o input está em foco */
+.input-wrapper:focus-within {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 1px var(--accent-color);
+}
+
+/* Campo de input */
+#message-input {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    color: var(--text-primary);
+    padding: 12px 10px;
+    font-size: 1em;
+    outline: none;
+}
+
+/* Placeholder do input */
+#message-input::placeholder {
+    color: var(--text-secondary);
+}
+
+/* Botões do input */
+.input-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* Efeito hover para botões do input */
+.input-btn:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-tertiary);
+}
+
+/* Botão de enviar */
+.send-btn {
+    background-color: var(--accent-color);
+    border: none;
+    color: white;
+    padding: 0 15px;
+    height: 48px;
+    border-radius: 24px;
+    cursor: pointer;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+}
+
+/* Efeito hover para o botão de enviar */
+.send-btn:hover {
+    background-color: #3a7bc8;
+}
+
+/* Rodapé da área de chat */
+.ai-footer {
+    text-align: center;
+    padding: 10px 0 15px 0;
+    font-size: 0.75em;
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+
+/* Responsividade para tablets */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+        padding: 15px 10px;
+    }
+
+    /* Esconde texto do cabeçalho em telas pequenas */
+    .sidebar-header h2 {
+        display: none;
+    }
+
+    /* Ajustes para itens do histórico */
+    .chat-history li a {
+        font-size: 0.85em;
+        padding: 6px 8px;
+    }
+
+    /* Esconde texto dos botões do rodapé */
+    .sidebar-footer .sidebar-btn span,
+    .sidebar-footer .sidebar-btn .new-badge {
+        display: none;
+    }
+
+    /* Ajustes para área de mensagens */
+    .messages-container {
+        padding: 15px 20px;
+    }
+
+    .message-form {
+        padding: 10px 20px;
+    }
+
+    .message {
+        max-width: 85%;
+    }
+
+    /* Ajustes de tamanho para mensagem de boas-vindas */
+    .welcome-message h1 { font-size: 1.5em;}
+    .welcome-message p { font-size: 1em;}
+}
+
+/* Responsividade para celulares */
+@media (max-width: 500px) {
+    /* Esconde barra lateral em telas muito pequenas */
+    .sidebar {
+        display: none;
+    }
+
+    /* Ajustes de padding */
+    .messages-container {
+        padding: 10px 15px;
+    }
+
+    .message-form {
+        padding: 10px 15px;
+    }
+
+    /* Ajustes para o input */
+    .input-wrapper {
+        padding: 0 5px;
+    }
+
+    .input-btn {
+        font-size: 1.1em;
+        padding: 6px;
+    }
+
+    /* Ajustes para o botão de enviar */
+    .send-btn {
+        padding: 0 12px;
+        height: 44px;
+        border-radius: 22px;
+    }
+
+    #message-input {
+        padding: 10px 5px;
+    }
+}
