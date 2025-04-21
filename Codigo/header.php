@@ -1,104 +1,52 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FacilitaU - <?php echo isset($page_title) ? $page_title : 'Sistema'; ?></title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-        header h1 {
-            margin: 0;
-        }
-        nav {
-            margin: 10px 0;
-        }
-        nav a {
-            color: #fff;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        .container {
-            width: 80%;
-            margin: 20px auto;
-            text-align: center;
-        }
-        form {
-            text-align: left;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        form label {
-            display: block;
-            margin: 5px 0;
-        }
-        form input, form select, form textarea {
-            width: 100%;
-            padding: 5px;
-            margin-bottom: 10px;
-        }
-        form textarea {
-            resize: vertical;
-        }
-        form button {
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        form button:hover {
-            background-color: #0056b3;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ccc;
-        }
-        th, td {
-            padding: 5px;
-            text-align: left;
-        }
-        th {
-            background-color: #007bff;
-            color: #fff;
-        }
-        .success {
-            color: green;
-        }
-        .error {
-            color: red;
-        }
-    </style>
+    <!-- Configurações básicas do documento HTML -->
+    <meta charset="UTF-8"> <!-- Define a codificação de caracteres como UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Configura viewport para responsividade -->
+    
+    <!-- Título dinâmico da página - usa $page_title se existir, caso contrário usa 'Facilita U' -->
+    <title><?php echo isset($page_title) ? $page_title : 'Facilita U'; ?></title>
+    
+    <!-- Inclui folha de estilo do cabeçalho -->
+    <link rel="stylesheet" href="CSS/header.css">
+    <!-- Inclui Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
-    <header>
-        <h1>FacilitaU</h1>
-        <nav>
-            <?php
-            session_start();
-            if (isset($_SESSION['usuario_id'])) {
-                echo '<a href="menu_' . $_SESSION['tipo'] . '.php">Menu</a>';
-                echo '<a href="logout.php">Sair</a>';
-            } else {
-                echo '<a href="index.php">Login</a>';
-            }
-            ?>
-        </nav>
+    <!-- Cabeçalho principal da aplicação -->
+    <header class="main-header">
+        <div class="header-container">
+            <!-- Logo/Link para a página inicial -->
+            <a href="index.php" class="logo-link">
+                <!-- Ícone da universidade -->
+                <i class="fas fa-university logo-icon"></i>
+                <!-- Texto do logo -->
+                <h1 class="logo-text">Facilita U</h1>
+            </a>
+            
+            <!-- Botão Voltar - usa JavaScript para navegar para a página anterior -->
+            <button onclick="window.history.back();" class="btn-back">
+                <i class="fas fa-arrow-left"></i> <!-- Ícone de seta -->
+                <span>Voltar</span> <!-- Texto do botão -->
+            </button>
+            
+            <!-- Seção de informações do usuário (só aparece se logado) -->
+            <?php if (isset($_SESSION['usuario_id'])): ?>
+            <div class="user-info">
+                <div class="user-details">
+                    <!-- Mostra o nome do usuário (com htmlspecialchars para segurança) -->
+                    <div class="user-name"><?php echo htmlspecialchars($_SESSION['nome']); ?></div>
+                </div>
+                <!-- Botão de logout -->
+                <a href="logout.php" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> <!-- Ícone de sair -->
+                    <span>Sair</span> <!-- Texto do botão -->
+                </a>
+            </div>
+            <?php endif; ?>
+        </div>
     </header>
-    <div class="container">
+
+    <!-- Container principal do conteúdo (será preenchido pelas páginas que incluem este header) -->
+    <main class="main-content"></main>
