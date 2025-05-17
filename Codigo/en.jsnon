@@ -1,0 +1,18 @@
+{
+    "login": "Login",
+    "cadastro": "Register",
+    "email": "Email",
+    "senha": "Password",
+    "nome": "Name",
+    "tipo_usuario": "User Type",
+    "estudante": "Student",
+    "professor": "Professor",
+    "coordenador": "Coordinator",
+    "voltar": "Back",
+    "cadastrar": "Register",
+    "enviar": "Send",
+    "esqueci_senha": "I forgot my password",
+    "tema_claro": "Light Theme",
+    "tema_escuro": "Dark Theme",
+    "menu_estudante": "Student Menu"
+}

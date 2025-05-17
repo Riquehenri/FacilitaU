@@ -1,0 +1,92 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Tema Claro */
+body.claro {
+    background-color: #f0f4f8;
+    color: #2c3e50;
+}
+body.claro form {
+    background: #fff;
+}
+
+/* Tema Escuro */
+body.escuro {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+}
+body.escuro form {
+    background: #34495e;
+    color: #ecf0f1;
+}
+
+h1, h2 {
+    color: inherit;
+}
+
+form {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+:focus {
+    outline: 2px solid #1abc9c;
+    outline-offset: 2px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    h1, h2 {
+        font-size: 1.5em;
+    }
+    form {
+        padding: 10px;
+    }
+    input, select, button {
+        font-size: 16px;
+    }
+}
