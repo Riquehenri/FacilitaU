@@ -133,14 +133,7 @@ O projeto utiliza um banco de dados MySQL chamado `facilitau_db`. As principais 
 
 ## 👥 Integrantes
 - [Éden Samuel Bozza Hernandes](https://github.com/Eden-code01)
+- [Felipe Carneiro](https://github.com/FelipeCarneiroRibeiro)
 - [Fernando Lopes Duarte](https://github.com/Fernando-Lopes1)
 - [Henrique Ricardo](https://github.com/Riquehenri)
-- [Felipe Carneiro](https://github.com/FelipeCarneiroRibeiro)
 - [Hugo Takeda](https://github.com/hugotakeda)
-
-## 📜 Licença
-Este projeto é licenciado sob a [MIT License](LICENSE).
-```
-
----
-
