@@ -30,7 +30,7 @@ Bem-vindo ao **FacilitaU**, um sistema web desenvolvido para auxiliar estudantes
 - **Frontend:** HTML, CSS
 - **Backend:** PHP (puro, sem frameworks)
 - **Banco de Dados:** MySQL (via XAMPP)
-- **Ambiente de Desenvolvimento:** XAMPP, Notepad++ ou qualquer editor de texto
+- **Ambiente de Desenvolvimento:** XAMPP, Visual Studio Code
 - **Autenticação:** Implementada com sessões PHP
 
 ## 📂 Estrutura do Projeto
