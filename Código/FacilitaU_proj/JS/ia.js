@@ -1,63 +1,50 @@
 class FacilitauIA {
     constructor() {
+        this.apiKey = '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'; // Sua API key
+        this.apiUrl = 'https://api.openai.com/v1/chat/completions'; // Endpoint da OpenAI
         this.apiUrl = 'http://localhost/facilitau/api_calendario.php'; // Ajuste para o URL do seu servidor
     }
 
-    processarComando(comando) {
-        comando = comando.toLowerCase().trim();
+    async processarComando(comando) {
+        const payload = {
+            model: '', // Modelo da OpenAI, ajuste se necessário
+            messages: [
+                {
+                    role: 'system',
+                    content: 'Você é uma assistente que ajuda a gerenciar um calendário escolar. Responda em português e interprete comandos como "Crie um plano para [matéria] até [data]" ou "Criar aviso para [evento]" para gerar JSON com tipo_evento, data_inicio, data_fim, descrição e prioridade. Exemplo de resposta: {"tipo_evento": "plano", "data_inicio": "2025-05-27T16:00:00Z", "data_fim": "2025-05-30T16:00:00Z", "descrição": "Plano para matemática", "prioridade": 1}. Se o comando não for reconhecido, retorne: "Comando não reconhecido."'
+                },
+                {
+                    role: 'user',
+                    content: comando
+                }
+            ],
+            max_tokens: 150
+        };
 
-        // Identificar intent e extrair entidades com regex
-        let intent = 'desconhecido';
-        let materia = 'matéria não especificada';
-        let dataFim = null;
-        let evento = 'evento não especificado';
+        try {
+            const response = await fetch(this.apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${this.apiKey}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
 
-        // Intent: Criar plano
-        const planoMatch = comando.match(/(criar|sugerir)\s+(plano|plano de estudo)\s+(para|de)\s+(\w+)\s*(até|na)?\s*(\w+\-?\w*)/i);
-        if (planoMatch) {
-            intent = 'criar_plano';
-            materia = planoMatch[4] || materia;
-            dataFim = planoMatch[6];
-            if (dataFim) {
-                const dias = { 'amanhã': 1, 'sexta-feira': 4, 'semana': 7, 'próxima semana': 7 };
-                const offset = dias[dataFim.toLowerCase()] || 7;
-                dataFim = new Date(Date.now() + offset * 24 * 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' ');
+            const data = await response.json();
+            const content = data.choices[0].message.content;
+
+            // Tentar interpretar a resposta como JSON
+            let result;
+            try {
+                result = JSON.parse(content);
+            } catch (e) {
+                return content; // Retorna a string se não for JSON
             }
-        }
 
-        // Intent: Criar aviso
-        const avisoMatch = comando.match(/(criar|adicionar)\s+(aviso)\s+(para)\s+(\w+)/i);
-        if (avisoMatch) {
-            intent = 'criar_aviso';
-            evento = avisoMatch[4] || evento;
-        }
-
-        return this.interpretarComando(intent, materia, dataFim, evento);
-    }
-
-    interpretarComando(intent, materia, dataFim, evento) {
-        switch (intent) {
-            case 'criar_plano':
-                const plano = {
-                    tipo_evento: 'plano',
-                    data_inicio: new Date().toISOString().slice(0, 19).replace('T', ' '),
-                    data_fim: dataFim || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' '),
-                    descricao: `Plano de estudo para ${materia}`,
-                    prioridade: 1
-                };
-                return this.enviarParaBackend(plano, `Plano criado para ${materia} até ${dataFim ? new Date(dataFim).toLocaleDateString() : 'uma semana'}. Estude 1 hora por dia!`);
-
-            case 'criar_aviso':
-                const aviso = {
-                    tipo_evento: 'aviso',
-                    data_inicio: new Date().toISOString().slice(0, 19).replace('T', ' '),
-                    descricao: `Lembrete: ${evento} está chegando!`,
-                    prioridade: 3
-                };
-                return this.enviarParaBackend(aviso, `Aviso criado: ${aviso.descricao}`);
-
-            default:
-                return 'Comando não reconhecido. Tente "Crie um plano para [matéria] até [data]" ou "Criar aviso para [evento]". Exemplos: "Crie um plano para matemática até sexta-feira" ou "Criar aviso para prova".';
+            return this.enviarParaBackend(result, `Ação realizada: ${result.descrição}`);
+        } catch (error) {
+            return 'Erro ao processar o comando com a API.';
         }
     }
 
@@ -69,7 +56,7 @@ class FacilitauIA {
                 body: JSON.stringify(dados)
             });
             const result = await response.json();
-            return result.success ? mensagemSucesso : 'Erro ao processar o comando.';
+            return result.success ? mensagemSucesso : 'Erro ao processar o comando no backend.';
         } catch (error) {
             return 'Erro ao conectar com o servidor.';
         }
