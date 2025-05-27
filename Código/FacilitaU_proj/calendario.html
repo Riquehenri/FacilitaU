@@ -8,53 +8,60 @@
     <link rel="stylesheet" href="calendario.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container" role="main" aria-label="Calendário Acadêmico">
         <h1>Calendário Acadêmico</h1>
-        <div class="form-evento">
+        <div class="form-evento" role="region" aria-label="Formulário de Adição de Evento">
             <h2>Adicionar Evento/Aviso</h2>
-            <form id="form-evento">
+            <form id="form-evento" aria-describedby="form-instructions">
+                <p id="form-instructions" class="sr-only">Preencha os campos para adicionar um novo evento ou aviso.</p>
                 <label for="tipo-evento">Tipo:</label>
-                <select id="tipo-evento" required>
+                <select id="tipo-evento" required aria-required="true">
                     <option value="atividade">Atividade</option>
                     <option value="plano">Plano de Estudo</option>
                     <option value="aviso">Aviso</option>
                 </select>
                 <label for="data-inicio">Data Início:</label>
-                <input type="datetime-local" id="data-inicio" required>
+                <input type="datetime-local" id="data-inicio" required aria-required="true" aria-describedby="data-inicio-help">
+                <small id="data-inicio-help" class="sr-only">Use o formato AAAA-MM-DD HH:MM para data e hora de início.</small>
                 <label for="data-fim">Data Fim (opcional):</label>
-                <input type="datetime-local" id="data-fim">
+                <input type="datetime-local" id="data-fim" aria-describedby="data-fim-help">
+                <small id="data-fim-help" class="sr-only">Use o formato AAAA-MM-DD HH:MM para data e hora de fim, se aplicável.</small>
                 <label for="descricao">Descrição:</label>
-                <input type="text" id="descricao" required>
+                <input type="text" id="descricao" required aria-required="true" aria-describedby="descricao-help">
+                <small id="descricao-help" class="sr-only">Descreva o evento ou aviso em poucas palavras.</small>
                 <label for="tags">Turmas:</label>
-                <select id="tags" multiple required>
+                <select id="tags" multiple required aria-required="true" aria-describedby="tags-help">
                     <!-- Tags carregadas via JavaScript -->
                 </select>
-                <button type="submit">Adicionar</button>
+                <small id="tags-help" class="sr-only">Selecione uma ou mais turmas associadas ao evento.</small>
+                <button type="submit" aria-label="Adicionar evento ou aviso">Adicionar</button>
             </form>
         </div>
-        <div class="filtros">
+        <div class="filtros" role="region" aria-label="Filtros de Turma">
             <label for="tag-filtro">Filtrar por Turma:</label>
-            <select id="tag-filtro" multiple>
+            <select id="tag-filtro" multiple aria-describedby="filter-instructions">
                 <option value="">Todas</option>
             </select>
+            <p id="filter-instructions" class="sr-only">Selecione uma ou mais turmas para filtrar os eventos no calendário.</p>
         </div>
-        <div class="legenda">
+        <div class="legenda" role="region" aria-label="Legenda de Prioridades">
             <span class="legenda-item alta">Alta Prioridade (Avisos)</span>
             <span class="legenda-item media">Média Prioridade (Atividades)</span>
             <span class="legenda-item baixa">Baixa Prioridade (Planos)</span>
         </div>
-        <div id="calendar"></div>
-        <div id="ia-sugestao">
+        <div id="calendar" role="application" aria-label="Calendário Interativo"></div>
+        <div id="ia-sugestao" role="region" aria-label="Assistente Virtual">
             <h2>Assistente Virtual</h2>
             <div class="ia-interacao">
-                <input type="text" id="ia-comando" placeholder="Ex.: Criar plano para matemática na próxima semana">
-                <button onclick="interagirIA()">Enviar</button>
+                <input type="text" id="ia-comando" placeholder="Ex.: Crie um plano para matemática até sexta-feira" aria-label="Comando para a assistente virtual">
+                <button onclick="interagirIA()" aria-label="Enviar comando à assistente">Enviar</button>
             </div>
-            <p id="sugestao-texto">Digite um comando para começar!</p>
-            <button onclick="gerarAviso()">Criar Aviso Automático</button>
+            <p id="sugestao-texto" role="alert" aria-live="polite"></p>
+            <button onclick="gerarAviso()" aria-label="Gerar aviso automático">Criar Aviso Automático</button>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
-    <script src="calendario.js"></script>
+    <script src="Código/FacilitaU_proj/JS/ia.js"></script>
+    <script src="Código/FacilitaU_proj/JS/calendario.js"></script>
 </body>
 </html>

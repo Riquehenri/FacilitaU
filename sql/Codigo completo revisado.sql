@@ -460,3 +460,11 @@ CREATE TABLE IF NOT EXISTS Evento_Tags (
 -- Índices para melhorar desempenho
 CREATE INDEX idx_calendario_usuario ON Calendario(usuario_id);
 CREATE INDEX idx_calendario_data ON Calendario(data_inicio);
+ALTER TABLE Calendario ADD COLUMN prioridade INT DEFAULT 1; -- 1=baixa, 2=média, 3=alta
+
+-- Atualizar eventos existentes (   se necessário)
+UPDATE Calendario SET prioridade = CASE 
+    WHEN tipo_evento = 'aviso' THEN 3 
+    WHEN tipo_evento = 'atividade' THEN 2 
+    ELSE 1 
+END;

@@ -1,0 +1,42 @@
+<?php
+require_once 'conexao.php';
+
+echo "Iniciando testes...\n";
+
+// Teste 1: Criar um evento
+$sql = "INSERT INTO Calendario (usuario_id, tipo_evento, data_inicio, descricao, prioridade) 
+        VALUES (1, 'atividade', '2025-05-28 10:00:00', 'Teste de Atividade', 2)";
+if ($conn->query($sql)) {
+    echo "Teste 1: Evento criado com sucesso.\n";
+    $evento_id = $conn->insert_id;
+} else {
+    echo "Teste 1: Falha ao criar evento.\n";
+}
+
+// Teste 2: Associar tag
+$sql = "INSERT INTO Evento_Tags (evento_id, tag_id) VALUES ($evento_id, 1)";
+if ($conn->query($sql)) {
+    echo "Teste 2: Tag associada com sucesso.\n";
+} else {
+    echo "Teste 2: Falha ao associar tag.\n";
+}
+
+// Teste 3: Listar eventos
+$sql = "SELECT * FROM Calendario WHERE evento_id = $evento_id";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    echo "Teste 3: Evento listado com sucesso.\n";
+} else {
+    echo "Teste 3: Falha ao listar evento.\n";
+}
+
+// Teste 4: Excluir evento
+$sql = "DELETE FROM Calendario WHERE evento_id = $evento_id";
+if ($conn->query($sql)) {
+    echo "Teste 4: Evento excluído com sucesso.\n";
+} else {
+    echo "Teste 4: Falha ao excluir evento.\n";
+}
+
+echo "Testes concluídos.\n";
+?>

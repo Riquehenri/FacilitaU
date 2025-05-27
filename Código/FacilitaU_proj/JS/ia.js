@@ -1,94 +1,85 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const messageForm = document.getElementById("message-form");
-  const messageInput = document.getElementById("message-input");
-  const messagesContainer = document.getElementById("messages-container");
-  const welcomeMessage = document.getElementById("welcome-message");
-  const newChatButton = document.querySelector(".new-chat-btn");
-
-  function addMessage(text, sender) {
-    const messageElement = document.createElement("div");
-    messageElement.classList.add("message", sender); 
-    messageElement.textContent = text;
-    messagesContainer.appendChild(messageElement);
-
-    // Auto-scroll para a última mensagem
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-    // Esconde a mensagem de boas-vindas se ainda estiver visível
-    if (welcomeMessage && !welcomeMessage.hidden) {
-      welcomeMessage.style.display = "none"; 
-    }
-  }
-
-  // Função para simular resposta do bot
-  function simulateBotResponse(userMessage) {
-    // Respostas simples baseadas na entrada do usuário(retirar dps da api)
-    let botText = "Desculpe, não entendi. Pode reformular sua pergunta?"; // Resposta padrão
-
-    const lowerCaseMessage = userMessage.toLowerCase();
-
-    if (
-      lowerCaseMessage.includes("olá") ||
-      lowerCaseMessage.includes("oi") ||
-      lowerCaseMessage.includes("bom dia")
-    ) {
-      botText = "Olá! Como posso ajudar você com a Facilita U hoje?";
-    } else if (
-      lowerCaseMessage.includes("matrícula") ||
-      lowerCaseMessage.includes("inscricao")
-    ) {
-      botText =
-        "Para informações sobre matrícula, você pode consultar a seção 'Acadêmico' no portal do aluno ou entrar em contato com a secretaria.";
-    } else if (
-      lowerCaseMessage.includes("horário") ||
-      lowerCaseMessage.includes("aulas")
-    ) {
-      botText =
-        "Seu horário de aulas geralmente está disponível no portal do aluno. Verifique a seção 'Meu Horário'.";
-    } else if (lowerCaseMessage.includes("biblioteca")) {
-      botText =
-        "A biblioteca funciona de segunda a sexta, das 8h às 22h. Você pode pesquisar o acervo online.";
-    } else if (
-      lowerCaseMessage.includes("obrigado") ||
-      lowerCaseMessage.includes("agradecido")
-    ) {
-      botText = "De nada! Se precisar de mais alguma coisa, é só perguntar.";
+class FacilitauIA {
+    constructor() {
+        this.apiUrl = 'http://localhost/facilitau/api_calendario.php'; // Ajuste para o URL do seu servidor
     }
 
-    // Simula um pequeno atraso para a resposta do bot
-    setTimeout(() => {
-      addMessage(botText, "bot");
-    }, 800); // Atraso de 800ms
-  }
+    processarComando(comando) {
+        comando = comando.toLowerCase().trim();
 
-  // Evento de envio do formulário
-  messageForm.addEventListener("submit", (event) => {
-    event.preventDefault(); 
+        // Identificar intent e extrair entidades com regex
+        let intent = 'desconhecido';
+        let materia = 'matéria não especificada';
+        let dataFim = null;
+        let evento = 'evento não especificado';
 
-    const userText = messageInput.value.trim();
+        // Intent: Criar plano
+        const planoMatch = comando.match(/(criar|sugerir)\s+(plano|plano de estudo)\s+(para|de)\s+(\w+)\s*(até|na)?\s*(\w+\-?\w*)/i);
+        if (planoMatch) {
+            intent = 'criar_plano';
+            materia = planoMatch[4] || materia;
+            dataFim = planoMatch[6];
+            if (dataFim) {
+                const dias = { 'amanhã': 1, 'sexta-feira': 4, 'semana': 7, 'próxima semana': 7 };
+                const offset = dias[dataFim.toLowerCase()] || 7;
+                dataFim = new Date(Date.now() + offset * 24 * 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' ');
+            }
+        }
 
-    if (userText) {
-      addMessage(userText, "user"); // Adiciona a mensagem do usuário
-      messageInput.value = ""; // Limpa o campo de entrada
-      messageInput.focus(); 
-      simulateBotResponse(userText); 
+        // Intent: Criar aviso
+        const avisoMatch = comando.match(/(criar|adicionar)\s+(aviso)\s+(para)\s+(\w+)/i);
+        if (avisoMatch) {
+            intent = 'criar_aviso';
+            evento = avisoMatch[4] || evento;
+        }
+
+        return this.interpretarComando(intent, materia, dataFim, evento);
     }
-  });
 
-  // Evento do botão "Novo Chat"
-  newChatButton.addEventListener("click", () => {
-    messagesContainer.innerHTML = ""; // Limpa as mensagens
-    if (welcomeMessage) {
-      welcomeMessage.style.display = "flex"; // Mostra a mensagem de boas-vindas novamente
+    interpretarComando(intent, materia, dataFim, evento) {
+        switch (intent) {
+            case 'criar_plano':
+                const plano = {
+                    tipo_evento: 'plano',
+                    data_inicio: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                    data_fim: dataFim || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' '),
+                    descricao: `Plano de estudo para ${materia}`,
+                    prioridade: 1
+                };
+                return this.enviarParaBackend(plano, `Plano criado para ${materia} até ${dataFim ? new Date(dataFim).toLocaleDateString() : 'uma semana'}. Estude 1 hora por dia!`);
+
+            case 'criar_aviso':
+                const aviso = {
+                    tipo_evento: 'aviso',
+                    data_inicio: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                    descricao: `Lembrete: ${evento} está chegando!`,
+                    prioridade: 3
+                };
+                return this.enviarParaBackend(aviso, `Aviso criado: ${aviso.descricao}`);
+
+            default:
+                return 'Comando não reconhecido. Tente "Crie um plano para [matéria] até [data]" ou "Criar aviso para [evento]". Exemplos: "Crie um plano para matemática até sexta-feira" ou "Criar aviso para prova".';
+        }
     }
-    messageInput.value = ""; 
-    // Parte do novo chat(Futuras melhorias)
-    console.log("Novo chat iniciado!");
-  });
 
-  // Inicialmente, esconde o welcome message se já houver histórico (simulação)
-  // ou se decidir iniciar com um chat ativo (remova se quiser sempre iniciar com welcome)
-  if (messagesContainer.children.length > 0 && welcomeMessage) {
-    welcomeMessage.style.display = "none";
-  }
-});
+    async enviarParaBackend(dados, mensagemSucesso) {
+        try {
+            const response = await fetch(this.apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            });
+            const result = await response.json();
+            return result.success ? mensagemSucesso : 'Erro ao processar o comando.';
+        } catch (error) {
+            return 'Erro ao conectar com o servidor.';
+        }
+    }
+}
+
+const ia = new FacilitauIA();
+
+// Função para interagir com a IA (a ser chamada de calendario.js)
+window.interagirComIA = async (comando) => {
+    const resultado = await ia.processarComando(comando);
+    return resultado;
+};
