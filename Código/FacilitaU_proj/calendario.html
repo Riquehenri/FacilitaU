@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FacilitaU - Calendário</title>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="calendario.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Calendário Acadêmico</h1>
+        <div class="form-evento">
+            <h2>Adicionar Evento/Aviso</h2>
+            <form id="form-evento">
+                <label for="tipo-evento">Tipo:</label>
+                <select id="tipo-evento" required>
+                    <option value="atividade">Atividade</option>
+                    <option value="plano">Plano de Estudo</option>
+                    <option value="aviso">Aviso</option>
+                </select>
+                <label for="data-inicio">Data Início:</label>
+                <input type="datetime-local" id="data-inicio" required>
+                <label for="data-fim">Data Fim (opcional):</label>
+                <input type="datetime-local" id="data-fim">
+                <label for="descricao">Descrição:</label>
+                <input type="text" id="descricao" required>
+                <label for="tags">Turmas:</label>
+                <select id="tags" multiple required>
+                    <!-- Tags carregadas via JavaScript -->
+                </select>
+                <button type="submit">Adicionar</button>
+            </form>
+        </div>
+        <div class="filtros">
+            <label for="tag-filtro">Filtrar por Turma:</label>
+            <select id="tag-filtro" multiple>
+                <option value="">Todas</option>
+            </select>
+        </div>
+        <div class="legenda">
+            <span class="legenda-item alta">Alta Prioridade (Avisos)</span>
+            <span class="legenda-item media">Média Prioridade (Atividades)</span>
+            <span class="legenda-item baixa">Baixa Prioridade (Planos)</span>
+        </div>
+        <div id="calendar"></div>
+        <div id="ia-sugestao">
+            <h2>Assistente Virtual</h2>
+            <div class="ia-interacao">
+                <input type="text" id="ia-comando" placeholder="Ex.: Criar plano para matemática na próxima semana">
+                <button onclick="interagirIA()">Enviar</button>
+            </div>
+            <p id="sugestao-texto">Digite um comando para começar!</p>
+            <button onclick="gerarAviso()">Criar Aviso Automático</button>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="calendario.js"></script>
+</body>
+</html>

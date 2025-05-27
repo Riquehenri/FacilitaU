@@ -431,3 +431,32 @@ BEGIN
 END //
 
 DELIMITER ;
+
+
+CREATE TABLE IF NOT EXISTS Calendario (
+    evento_id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    tipo_evento VARCHAR(50) NOT NULL, -- 'aviso', 'atividade', 'plano'
+    data_inicio DATETIME NOT NULL,
+    data_fim DATETIME,
+    descricao TEXT,
+    tags VARCHAR(255), -- Para compatibilidade inicial
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Tags (
+    tag_id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS Evento_Tags (
+    evento_id INT,
+    tag_id INT,
+    FOREIGN KEY (evento_id) REFERENCES Calendario(evento_id) ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES Tags(tag_id) ON DELETE CASCADE,
+    PRIMARY KEY (evento_id, tag_id)
+);
+
+-- Índices para melhorar desempenho
+CREATE INDEX idx_calendario_usuario ON Calendario(usuario_id);
+CREATE INDEX idx_calendario_data ON Calendario(data_inicio);
