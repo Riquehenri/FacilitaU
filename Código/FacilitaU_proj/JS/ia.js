@@ -1,6 +1,6 @@
 class FacilitauIA {
     constructor() {
-        this.apiKey = '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'; // Sua API key
+        this.apiKey = 'SUA_API'; // Sua API key
         this.apiUrl = 'https://api.openai.com/v1/chat/completions'; // Endpoint da OpenAI
         this.apiUrl = 'http://localhost/facilitau/api_calendario.php'; // Ajuste para o URL do seu servidor
     }
