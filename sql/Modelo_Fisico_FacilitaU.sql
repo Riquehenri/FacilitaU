@@ -111,7 +111,7 @@ CREATE TABLE Interacoes_Assistente (
 INSERT INTO Cursos (nome, descricao, duracao_semestres) VALUES
 ('Engenharia de Software', 'Curso de graduação em Engenharia de Software', 8),
 ('Ciência da Computação', 'Curso de graduação em Ciência da Computação', 8),
-('Administração', 'Curso de graduação em Administração', 8);
+('Sistema da Informação', 'Curso de graduação em Sistema da informação', 8);
 
 -- Inserindo usuários de exemplo
 INSERT INTO Usuarios (email, senha, tipo, nome, data_nascimento, telefone, curso_id) VALUES
