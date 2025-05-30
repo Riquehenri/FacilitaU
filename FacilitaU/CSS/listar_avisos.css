@@ -1,0 +1,150 @@
+:root {
+  --bg-primary: #212121;
+  --bg-secondary: #2d2d2d;
+  --bg-tertiary: #3a3a3a;
+  --text-primary: #e0e0e0;
+  --text-secondary: #cccccc;
+  --accent-color: #4a90e2;
+  --success-color: #2ecc71;
+  --error-color: #e74c3c;
+  --border-color: #424242;
+}
+
+/* MODO CLARO */
+body.light-mode {
+  --bg-primary: #f4f4f4;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #eaeaea;
+  --text-primary: #1e1e1e;
+  --text-secondary: #555555;
+  --accent-color: #1e88e5;
+  --success-color: #27ae60;
+  --error-color: #c0392b;
+  --border-color: #cccccc;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding: 2rem;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+h2 {
+  color: var(--accent-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+/* Estilo da tabela de avisos */
+table {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.4s ease;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+th,
+td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+th {
+  background-color: var(--bg-tertiary);
+  color: var(--accent-color);
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+tr:hover {
+  background-color: rgba(74, 144, 226, 0.05);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* Mensagem quando não há avisos */
+p {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 2rem;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  max-width: 800px;
+  margin: 0 auto;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Destaque para tipos de aviso */
+td:first-child {
+  font-weight: 500;
+  color: var(--accent-color);
+}
+
+/* Animação */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  th,
+  td {
+    padding: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  th,
+  td {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  th {
+    font-size: 0.75rem;
+  }
+}
