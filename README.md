@@ -1,139 +1,175 @@
-
-
----
-
 # FacilitaU
 
-Bem-vindo ao **FacilitaU**, um sistema web desenvolvido para auxiliar estudantes universitários no gerenciamento de suas atividades acadêmicas. Nossa plataforma permite que os estudantes utilizem uma assistente virtual para tirar dúvidas sobre processos universitários, documentação e atividades futuras, além de gerenciar sua vida cotidiana, cadastrando tarefas, eventos e organizando-os em uma agenda.
+Bem-vindo ao **FacilitaU**, um sistema web criado para auxiliar estudantes universitários no gerenciamento de suas atividades acadêmicas e rotinas. O sistema oferece funcionalidades para estudantes, professores e coordenadores, promovendo uma comunicação eficiente e gestão inteligente das tarefas diárias, através de uma assistente virtual integrada.
 
-![Status do Projeto](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow) ![Sprint](https://img.shields.io/badge/Sprint-1-blue)
+![Status do Projeto](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow) ![Sprint](https://img.shields.io/badge/Sprint-2-green)
 
 ## 🌟 Principais Funcionalidades
 
-### Sprint 1 (Concluída)
-- **Registro e Autenticação:**
-  - Cadastro de usuários (estudantes, professores e coordenadores).
-  - Login com validação de e-mail e senha.
-  - Recuperação de senha (atualização de senha via e-mail).
+### Sprint 2 (Atual)
+
+- **Assistente Virtual:**
+
+  - Responde dúvidas frequentes acadêmicas com base em uma base de dados de perguntas e documentos.
+  - Registra interações dos usuários com a assistente.
+
+- **Gerenciamento de Tarefas e Eventos:**
+
+  - Estudantes podem cadastrar tarefas e eventos (provas, palestras, trabalhos).
+  - Sistema envia lembretes automáticos para eventos do dia seguinte.
+
+- **Gestão de Documentos:**
+
+  - Upload e consulta de documentos acadêmicos como contratos e regulamentos.
+
+- **Notificações Automatizadas:**
+  - Envio de notificações para avisos e lembretes de eventos/tarefas.
+  - Notificações pendentes são exibidas para os usuários.
+
+### Funcionalidades da Sprint 1
+
+- **Autenticação de Usuários:**
+
+  - Cadastro de estudantes, professores e coordenadores.
+  - Login com validação e recuperação de senha via e-mail.
+
 - **Planejamento de Estudos:**
-  - Estudantes podem criar e listar planejamentos de estudo personalizados (dia da semana, horário, atividade).
-- **Gestão de Avisos e Oportunidades:**
-  - Professores e coordenadores podem cadastrar avisos e oportunidades.
-  - Estudantes podem listar avisos publicados e recebem notificações automáticas.
+
+  - Estudantes podem criar rotinas semanais de estudo com horários e atividades.
+
+- **Gestão de Avisos:**
+  - Professores e coordenadores publicam avisos e oportunidades.
+  - Estudantes recebem notificações automáticas.
 
 ### Funcionalidades Futuras
-- **Assistente Virtual:** Responder dúvidas acadêmicas, consultar documentos, cadastrar eventos e tarefas.
-- **Gerenciamento de Agenda e Tarefas:** Cadastrar eventos e tarefas, enviar lembretes e notificações.
-- **Filtros e Pesquisas:** Buscar tarefas, eventos ou avisos por data ou categoria.
+
+- Filtros e busca por data, tipo ou título.
+- Interface mais interativa com validações em tempo real.
+- Painel administrativo para coordenadores.
 
 ## 🛠️ Tecnologias Utilizadas
+
 - **Frontend:** HTML, CSS
-- **Backend:** PHP (puro, sem frameworks)
+- **Backend:** PHP (sem frameworks)
 - **Banco de Dados:** MySQL (via XAMPP)
 - **Ambiente de Desenvolvimento:** XAMPP, Visual Studio Code
-- **Autenticação:** Implementada com sessões PHP
 
-## 📂 Estrutura do Projeto
-O projeto está organizado no diretório `facilitau/FacilitaU/Codigo`. A estrutura de arquivos é a seguinte:
+## 📂 Estrutura de Diretórios
 
 ```
 facilitau/
 └── FacilitaU/
     └── Codigo/
-        ├── config.php                  # Conexão com o banco de dados MySQL
-        ├── header.php                  # Cabeçalho comum para todas as páginas
-        ├── index.php                   # Página inicial (redireciona para login)
-        ├── cadastro_usuario.php        # Página para cadastrar usuários
-        ├── login_usuario.php           # Página de login
-        ├── menu_estudante.php          # Menu principal para estudantes
-        ├── menu_professor.php          # Menu principal para professores
-        ├── menu_coordenador.php        # Menu principal para coordenadores
-        ├── planejamento_estudos.php    # Página para cadastrar/listar planejamentos
-        ├── cadastrar_aviso.php         # Página para cadastrar avisos
-        ├── listar_avisos.php           # Página para listar avisos
-        ├── logout.php                  # Script para logout
+        ├── config.php
+        ├── index.php
+        ├── login_usuario.php
+        ├── cadastro_usuario.php
+        ├── menu_estudante.php
+        ├── menu_professor.php
+        ├── menu_coordenador.php
+        ├── planejamento_estudos.php
+        ├── cadastrar_aviso.php
+        ├── listar_avisos.php
+        ├── calendario.php
+        ├── editar_perfil.php
+        ├── perfil.php
+        ├── header.php
+        ├── logout.php
+        └── recuperar_senha.php
 ```
 
-## 📋 Banco de Dados
-O projeto utiliza um banco de dados MySQL chamado `facilitau_db`. As principais tabelas para a Sprint 1 são:
+## 🧠 Banco de Dados `facilitau_db`
 
-- **Usuarios:** Armazena informações de usuários (estudantes, professores, coordenadores).
-  - Atributos: `usuario_id` (PK), `email`, `senha`, `tipo`, `nome`, `data_criacao`.
-- **Planejamento_Estudos:** Armazena os planejamentos de estudos dos estudantes.
-  - Atributos: `planejamento_id` (PK), `usuario_id` (FK), `dia_semana`, `horario_inicio`, `horario_fim`, `atividade`.
-- **Avisos:** Armazena avisos e oportunidades publicados por professores e coordenadores.
-  - Atributos: `aviso_id` (PK), `usuario_id` (FK), `tipo_aviso`, `titulo`, `descricao`, `data_publicacao`.
-- **Notificacoes:** Registra notificações automáticas para estudantes (ex.: novos avisos).
-  - Atributos: `notificacao_id` (PK), `usuario_id` (FK), `tipo_notificacao`, `mensagem`, `data_notificacao`, `enviada`, `aviso_id` (FK).
+### Tabelas Novas na Sprint 2
 
-### Views e Procedures
-- **Views:** `PlanejamentoPorEstudante`, `AvisosComAutor`, `NotificacoesPendentes`.
-- **Procedures:** `InserirNotificacaoAviso`, `AtualizarSenhaUsuario`, `ExcluirUsuario`.
+- **Documentos**: Armazena arquivos como contratos e regulamentos.
+- **Perguntas_Respostas**: Base de conhecimento para a assistente.
+- **Tarefas_Eventos**: Tarefas e eventos acadêmicos por estudante.
+- **Interacoes_Assistente**: Histórico de interações com a assistente.
 
-### Configuração do Banco
-1. Abra o phpMyAdmin no XAMPP (`http://localhost/phpmyadmin`).
-2. Crie um banco de dados chamado `facilitau_db`.
-3. Execute o script SQL fornecido (se disponível) ou crie as tabelas manualmente.
+### Views Adicionadas
 
-## 🚀 Como Executar o Projeto
-1. **Pré-requisitos:**
-   - Instale o XAMPP no seu computador.
-   - Certifique-se de que o Apache e o MySQL estão rodando.
+- `TarefasEventosProximos`, `DocumentosPorTipo`, `InteracoesPorEstudante`, `UsuariosAtivos`, `AvisosPorTipo`
 
-2. **Clone o Repositório:**
+### Procedures Novas
+
+- `InserirNotificacaoLembrete()`: Cria lembretes automáticos.
+- `CadastrarTarefaEvento(...)`: Cadastra evento/tarefa e agenda lembrete.
+- `RegistrarInteracaoAssistente(...)`: Salva histórico com a assistente.
+
+## 🚀 Como Executar
+
+1. **Pré-requisitos**:
+
+   - XAMPP com Apache e MySQL ativos.
+
+2. **Clonar o Projeto**:
+
    ```bash
-   git clone https://github.com/seu-usuario/FacilitaU.git
+   git clone https://github.com/Riquehenri/FacilitaU.git
    ```
 
-3. **Organize os Arquivos:**
-   - Coloque os arquivos do projeto em `C:\xampp\htdocs\facilitau\FacilitaU\Codigo` (ou ajuste o caminho conforme seu ambiente).
+3. **Coloque os Arquivos** em:
 
-4. **Configure o Banco de Dados:**
-   - Importe o script SQL para o banco `facilitau_db` no phpMyAdmin.
+   ```
+   C:\xampp\htdocs\facilitau\FacilitaU\Codigo
+   ```
 
-5. **Acesse o Projeto:**
-   - Abra o navegador e vá para:
+4. **Banco de Dados**:
+
+   - Acesse `http://localhost/phpmyadmin`
+   - Importe o arquivo `Modelo Físico.sql`
+
+5. **Execute o Sistema**:
+
+   - Acesse no navegador:
      ```
      http://localhost/facilitau/FacilitaU/Codigo
      ```
-   - Use as credenciais de teste para fazer login:
-     - Estudante: `estudante1@facilitau.com` / Senha: `senha123`
-     - Professor: `professor1@facilitau.com` / Senha: `senha123`
-     - Coordenador: `coordenador1@facilitau.com` / Senha: `senha123`
 
-## 🖥️ Como Contribuir
-1. Faça um fork deste repositório.
-2. Clone o repositório para sua máquina local:
+6. **Credenciais de Teste**:
+   - Estudante: `estudante1@facilitau.com` / Senha: `senha123`
+   - Professor: `professor1@facilitau.com` / Senha: `senha123`
+   - Coordenador: `coordenador1@facilitau.com` / Senha: `senha123`
+
+## 🤝 Contribuindo
+
+1. Fork no GitHub e clone localmente:
+
    ```bash
-   git clone https://github.com/seu-usuario/FacilitaU.git
+   git clone https://github.com/Riquehenri/FacilitaU.git
    ```
-3. Crie uma branch para suas alterações:
+
+2. Crie uma branch e implemente:
+
    ```bash
    git checkout -b minha-contribuicao
    ```
-4. Faça suas alterações no código.
-5. Teste localmente com o XAMPP.
-6. Envie um commit:
+
+3. Commit e push:
+
    ```bash
    git add .
-   git commit -m "Minha contribuição"
-   ```
-7. Faça o push da sua branch:
-   ```bash
+   git commit -m "Nova funcionalidade"
    git push origin minha-contribuicao
    ```
-8. Envie um pull request para revisão.
 
-## 📌 Próximos Passos
-- Implementar a assistente virtual para responder dúvidas e gerenciar tarefas.
-- Adicionar cadastro e listagem de tarefas/eventos.
-- Exibir notificações pendentes automaticamente.
-- Melhorar a interface com validações visuais (ex.: mensagens de erro mais detalhadas).
-- Adicionar suporte a filtros e pesquisas (ex.: buscar tarefas por data).
+4. Abra um Pull Request no GitHub.
 
-## 👥 Integrantes
+## 📌 Roadmap
+
+- Adicionar filtros de busca por título, data e tipo.
+- Melhorias visuais na interface do usuário.
+- Painel de estatísticas para professores e coordenadores.
+
+## 👥 Equipe
+
 - [Éden Samuel Bozza Hernandes](https://github.com/Eden-code01)
 - [Felipe Carneiro](https://github.com/FelipeCarneiroRibeiro)
 - [Fernando Lopes Duarte](https://github.com/Fernando-Lopes1)
 - [Henrique Ricardo](https://github.com/Riquehenri)
 - [Hugo Takeda](https://github.com/hugotakeda)
+
+---
+
+📚 Projeto acadêmico em constante evolução — contribuições e feedbacks são bem-vindos!
