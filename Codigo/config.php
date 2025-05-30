@@ -1,7 +1,7 @@
 <?php
 $host = 'localhost:3307'; // Use 'localhost:3307' se estiver usando XAMPP ou MAMP com MySQL na porta 3307
 $usuario = 'root';
-$senha = '123456';
+$senha = '';
 $banco = 'facilitau_db';
 
 $conn = new mysqli($host, $usuario, $senha, $banco);

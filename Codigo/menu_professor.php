@@ -41,6 +41,7 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] != 'professor') {
                 <ul>
                     <!-- Link para cadastrar aviso -->
                     <li><a href="cadastrar_aviso.php"><i class="fas fa-bullhorn"></i> Cadastrar Aviso</a></li>
+                     <li><a href="calendario.php"><i class="fas fa-calendario"></i> Calendario</a></li>
                 </ul>
             </div>
             

@@ -326,3 +326,27 @@ BEGIN
 END //
 
 DELIMITER ;
+
+
+-- Primeiro, vamos adicionar campos de recorrência às tabelas existentes
+
+-- Para Planejamento_Estudos
+ALTER TABLE Planejamento_Estudos 
+ADD COLUMN data_inicial DATE NULL,
+ADD COLUMN tipo_recorrencia ENUM('nao', 'diario', 'semanal', 'mensal', 'anual') DEFAULT 'nao',
+ADD COLUMN ativo BOOLEAN DEFAULT TRUE;
+
+-- Para Avisos
+ALTER TABLE Avisos 
+ADD COLUMN tipo_recorrencia ENUM('nao', 'semanal', 'mensal', 'anual') DEFAULT 'nao',
+ADD COLUMN data_inicial DATE NULL,
+ADD COLUMN ativo BOOLEAN DEFAULT TRUE;
+
+-- Atualizar registros existentes para ter data_inicial
+UPDATE Planejamento_Estudos 
+SET data_inicial = CURDATE(), tipo_recorrencia = 'semanal' 
+WHERE data_inicial IS NULL;
+
+UPDATE Avisos 
+SET data_inicial = data_publicacao, tipo_recorrencia = 'nao' 
+WHERE data_inicial IS NULL;
