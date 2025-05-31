@@ -350,3 +350,86 @@ WHERE data_inicial IS NULL;
 UPDATE Avisos 
 SET data_inicial = data_publicacao, tipo_recorrencia = 'nao' 
 WHERE data_inicial IS NULL;
+
+-- Script para atualizar avisos existentes para compatibilidade com o calendário
+
+-- Adicionar colunas necessárias se não existirem
+ALTER TABLE Avisos 
+ADD COLUMN IF NOT EXISTS data_inicial DATE,
+ADD COLUMN IF NOT EXISTS tipo_recorrencia ENUM('nao', 'semanal', 'mensal', 'anual') DEFAULT 'nao',
+ADD COLUMN IF NOT EXISTS ativo BOOLEAN DEFAULT TRUE;
+
+-- Atualizar avisos existentes que não têm data_inicial
+UPDATE Avisos 
+SET data_inicial = data_publicacao 
+WHERE data_inicial IS NULL;
+
+-- Atualizar avisos existentes que não têm tipo_recorrencia
+UPDATE Avisos 
+SET tipo_recorrencia = 'nao' 
+WHERE tipo_recorrencia IS NULL;
+
+-- Atualizar avisos existentes que não têm status ativo
+UPDATE Avisos 
+SET ativo = TRUE 
+WHERE ativo IS NULL;
+
+-- Verificar se as atualizações foram aplicadas
+SELECT 
+    aviso_id,
+    titulo,
+    data_publicacao,
+    data_inicial,
+    tipo_recorrencia,
+    ativo
+FROM Avisos 
+ORDER BY data_publicacao DESC 
+LIMIT 10;
+
+
+-- Script para atualizar planejamentos existentes para compatibilidade com o calendário
+
+-- Adicionar colunas necessárias se não existirem
+ALTER TABLE Planejamento_Estudos 
+ADD COLUMN IF NOT EXISTS data_inicial DATE,
+ADD COLUMN IF NOT EXISTS tipo_recorrencia ENUM('nao', 'diario', 'semanal', 'mensal', 'anual') DEFAULT 'semanal',
+ADD COLUMN IF NOT EXISTS ativo BOOLEAN DEFAULT TRUE;
+
+-- Atualizar planejamentos existentes que não têm data_inicial
+-- Define como próxima ocorrência do dia da semana
+UPDATE Planejamento_Estudos 
+SET data_inicial = CASE 
+    WHEN dia_semana = 'segunda' THEN DATE_ADD(CURDATE(), INTERVAL (1 - WEEKDAY(CURDATE())) DAY)
+    WHEN dia_semana = 'terca' THEN DATE_ADD(CURDATE(), INTERVAL (2 - WEEKDAY(CURDATE())) DAY)
+    WHEN dia_semana = 'quarta' THEN DATE_ADD(CURDATE(), INTERVAL (3 - WEEKDAY(CURDATE())) DAY)
+    WHEN dia_semana = 'quinta' THEN DATE_ADD(CURDATE(), INTERVAL (4 - WEEKDAY(CURDATE())) DAY)
+    WHEN dia_semana = 'sexta' THEN DATE_ADD(CURDATE(), INTERVAL (5 - WEEKDAY(CURDATE())) DAY)
+    WHEN dia_semana = 'sabado' THEN DATE_ADD(CURDATE(), INTERVAL (6 - WEEKDAY(CURDATE())) DAY)
+    WHEN dia_semana = 'domingo' THEN DATE_ADD(CURDATE(), INTERVAL (7 - WEEKDAY(CURDATE())) DAY)
+    ELSE CURDATE()
+END
+WHERE data_inicial IS NULL;
+
+-- Atualizar planejamentos existentes que não têm tipo_recorrencia
+UPDATE Planejamento_Estudos 
+SET tipo_recorrencia = 'semanal' 
+WHERE tipo_recorrencia IS NULL;
+
+-- Atualizar planejamentos existentes que não têm status ativo
+UPDATE Planejamento_Estudos 
+SET ativo = TRUE 
+WHERE ativo IS NULL;
+
+-- Verificar se as atualizações foram aplicadas
+SELECT 
+    planejamento_id,
+    dia_semana,
+    atividade,
+    data_inicial,
+    tipo_recorrencia,
+    ativo
+FROM Planejamento_Estudos 
+WHERE ativo = TRUE
+ORDER BY data_inicial DESC 
+LIMIT 10;
+
