@@ -10,18 +10,12 @@ function validarTelefoneJS(telefone) {
   const regex = /^\(\d{2}\) 9\d{4}-\d{4}$/;
   return regex.test(telefone);
 }
-// Valida senha forte
-function validarSenhaJS(senha) {
-  const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-  return regex.test(senha);
-}
 // Validação do formulário
 function validarFormulario() {
   const telefone = document.getElementById("telefone").value;
   const dataNascimento = new Date(
     document.getElementById("data_nascimento").value
   );
-  const senha = document.getElementById("senha").value;
   // Telefone
   if (!validarTelefoneJS(telefone)) {
     alert("Telefone inválido. Use o formato (XX) 9XXXX-XXXX.");
@@ -33,13 +27,6 @@ function validarFormulario() {
   idadeMinima.setFullYear(hoje.getFullYear() - 16);
   if (dataNascimento > idadeMinima) {
     alert("Você deve ter pelo menos 16 anos.");
-    return false;
-  }
-  // Senha forte
-  if (!validarSenhaJS(senha)) {
-    alert(
-      "A senha deve conter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas, números ecaracteres especiais."
-    );
     return false;
   }
   return true;
