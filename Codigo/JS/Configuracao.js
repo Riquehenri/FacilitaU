@@ -1,10 +1,20 @@
+/**
+ * TUDO O QUE ACONTECE QUANDO A PÁGINA TERMINA DE CARREGAR
+ * 
+ * Configura o sistema de configurações do usuário, incluindo:
+ * 1. Modal de configurações que aparece quando clica no botão
+ * 2. Opções de acessibilidade (contraste e tamanho da fonte)
+ * 3. Lembrar das preferências mesmo depois de fechar o navegador
+ */
 document.addEventListener("DOMContentLoaded", function () {
-  // Elementos do modal
+  // Pega o botão que abre as configurações (o ícone de engrenagem)
   const configBtn = document.querySelector(".sidebar-btn:not(.profile-btn)");
+  
+  // Cria a janela de configurações do zero
   const configModal = document.createElement("div");
-  configModal.className = "config-modal";
+  configModal.className = "config-modal"; // Define a classe para o estilo CSS
 
-  // Conteúdo do modal
+  // Conteúdo HTML que vai dentro da janela de configurações
   configModal.innerHTML = `
     <div class="config-content">
       <div class="config-header">
@@ -39,61 +49,91 @@ document.addEventListener("DOMContentLoaded", function () {
     </div>
   `;
 
-  // Adiciona o modal ao body
+  // Adiciona a janela de configurações ao final da página
   document.body.appendChild(configModal);
 
-  // Elementos de configuração
-  const highContrast = document.getElementById("high-contrast");
-  const fontSize = document.getElementById("font-size");
+  // Pega os controles de dentro do modal
+  const highContrast = document.getElementById("high-contrast"); // Checkbox de alto contraste
+  const fontSize = document.getElementById("font-size"); // Seletor de tamanho de fonte
 
-  // Abrir modal
+  /**
+   * ABRIR O MODAL DE CONFIGURAÇÕES
+   * 
+   * Quando clica no botão de configurações:
+   * 1. Mostra a janela de configurações
+   * 2. Carrega as preferências salvas
+   */
   configBtn.addEventListener("click", function () {
-    configModal.style.display = "flex";
-    loadPreferences();
+    configModal.style.display = "flex"; // Mostra o modal
+    loadPreferences(); // Carrega as configurações salvas
   });
 
-  // Fechar modal
-  configModal
-    .querySelector(".close-config")
-    .addEventListener("click", function () {
-      configModal.style.display = "none";
-    });
+  /**
+   * FECHAR O MODAL DE CONFIGURAÇÕES
+   * 
+   * Funciona de três formas:
+   * 1. Clicando no X no canto superior direito
+   * 2. Clicando fora da área do modal
+   * 3. Pressionando ESC (configurado em outro arquivo)
+   */
+  // Fecha ao clicar no X
+  configModal.querySelector(".close-config").addEventListener("click", function () {
+    configModal.style.display = "none";
+  });
 
-  // Fechar ao clicar fora
+  // Fecha ao clicar fora do modal
   configModal.addEventListener("click", function (e) {
-    if (e.target === configModal) {
+    if (e.target === configModal) { // Verifica se clicou na área escura
       configModal.style.display = "none";
     }
   });
 
-  // Carrega preferências do localStorage
+  /**
+   * CARREGAR PREFERÊNCIAS SALVAS
+   * 
+   * Busca no computador do usuário as configurações que ele salvou antes
+   */
   function loadPreferences() {
-    // Alto Contraste
+    // Configuração de Alto Contraste
     if (localStorage.getItem("highContrast") === "true") {
-      highContrast.checked = true;
-      toggleHighContrast(true);
+      highContrast.checked = true; // Marca o checkbox
+      toggleHighContrast(true); // Aplica o contraste alto
     }
 
-    // Tamanho da Fonte
-    const savedFontSize = localStorage.getItem("fontSize") || "16px";
-    fontSize.value = savedFontSize;
-    document.documentElement.style.fontSize = savedFontSize;
+    // Configuração de Tamanho da Fonte
+    const savedFontSize = localStorage.getItem("fontSize") || "16px"; // Pega o valor salvo ou usa "16px" como padrão
+    fontSize.value = savedFontSize; // Define o seletor
+    document.documentElement.style.fontSize = savedFontSize; // Aplica o tamanho
   }
 
-  // Salva preferências no localStorage
+  /**
+   * SALVAR PREFERÊNCIAS
+   * 
+   * Guarda no computador do usuário as configurações escolhidas
+   */
   function savePreferences() {
+    // Salva o estado do alto contraste (true/false)
     localStorage.setItem("highContrast", highContrast.checked);
+    
+    // Salva o tamanho da fonte selecionado
     localStorage.setItem("fontSize", fontSize.value);
   }
 
-  // Alternar alto contraste
+  /**
+   * ALTERNAR MODO DE ALTO CONTRASTE
+   * 
+   * Muda as cores do site para facilitar a leitura
+   * @param {boolean} enable - Ativa ou desativa o alto contraste
+   */
   function toggleHighContrast(enable) {
     if (enable) {
+      // Cores para alto contraste (fundo branco, texto preto)
       document.documentElement.style.setProperty("--bg-primary", "#ffffff");
       document.documentElement.style.setProperty("--bg-secondary", "#f0f0f0");
       document.documentElement.style.setProperty("--text-primary", "#000000");
       document.documentElement.style.setProperty("--border-color", "#cccccc");
     } else {
+      // Cores normais (fundo escuro, texto claro)
       document.documentElement.style.setProperty("--bg-primary", "#212121");
       document.documentElement.style.setProperty("--bg-secondary", "#2d2d2d");
       document.documentElement.style.setProperty("--text-primary", "#e0e0e0");
@@ -101,17 +141,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Event Listeners
+  /**
+   * EVENTOS QUE FICAM ESCUTANDO MUDANÇAS NAS CONFIGURAÇÕES
+   */
+  // Quando muda o checkbox de alto contraste
   highContrast.addEventListener("change", function () {
-    toggleHighContrast(this.checked);
-    savePreferences();
+    toggleHighContrast(this.checked); // Aplica as mudanças
+    savePreferences(); // Salva a escolha
   });
 
+  // Quando muda o tamanho da fonte
   fontSize.addEventListener("change", function () {
-    document.documentElement.style.fontSize = this.value;
-    savePreferences();
+    document.documentElement.style.fontSize = this.value; // Aplica o novo tamanho
+    savePreferences(); // Salva a escolha
   });
 
-  // Carrega as preferências ao iniciar
+  // Carrega as preferências assim que a página abre
   loadPreferences();
 });
