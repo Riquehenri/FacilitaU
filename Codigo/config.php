@@ -1,7 +1,7 @@
 <?php
 $host = 'localhost:3307'; // Use 'localhost:3307' se estiver usando XAMPP ou MAMP com MySQL na porta 3307
 $usuario = 'root';
-$senha = '123456'; // Senha padrão do XAMPP ou MAMP é geralmente vazia, mas se você alterou, coloque a senha correta aqui
+$senha = ''; // Senha padrão do XAMPP ou MAMP é geralmente vazia, mas se você alterou, coloque a senha correta aqui
 // Se estiver usando MAMP, a senha padrão é 'root'
 $banco = 'facilitau_db';
 
