@@ -1,3 +1,5 @@
+const apiKey = "SUA_API"; // Substitua por sua chave de API da OpenAI
+
 document.addEventListener("DOMContentLoaded", () => {
   const messageForm = document.getElementById("message-form");
   const messageInput = document.getElementById("message-input");
@@ -7,16 +9,78 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Obtenha usuario_id e tipo_usuario do backend (via PHP embutido)
   const usuarioId = "<?php echo isset($_SESSION['usuario_id']) ? $_SESSION['usuario_id'] : ''; ?>";
-  const tipoUsuario = "<?php echo isset($_SESSION['tipo']) ? $_SESSION['tipo'] : ''; ?>";
+  const tipoUsuario = "<?php echo isset($_SESSION['tipo']) ? $_SESSION['tipo'] : ''; ?>".toLowerCase();
+
+  // Normalizar tipoUsuario para aceitar variações
+  const isEstudante = ["estudante", "aluno", "student"].includes(tipoUsuario);
+  const isProfessorOrCoordenador = ["professor", "coordenador"].includes(tipoUsuario);
 
   // Log para depuração
   console.log("usuarioId:", usuarioId, "tipoUsuario:", tipoUsuario);
+  addMessage(`Debug: Você está logado com usuarioId=${usuarioId}, tipoUsuario=${tipoUsuario}`, "bot");
 
   // Verifica se o usuário está autenticado
   if (!usuarioId || !tipoUsuario) {
     addMessage("Erro: Usuário não autenticado. Verifique sua sessão e faça login novamente.", "bot");
     return;
   }
+
+  // Verifica se a chave da API está configurada
+  if (!apiKey || apiKey === "SUA_API") {
+    addMessage("Erro: Chave da API da OpenAI não configurada. Contate o administrador.", "bot");
+    return;
+  }
+
+  // Prompt do sistema revisado
+  const systemPrompt = `
+Você é um assistente virtual da Facilita U, uma plataforma para gestão acadêmica. Sua função é ajudar usuários (estudantes, professores, coordenadores) a criar avisos, eventos ou planejamentos de estudos via endpoints PHP. Siga estas diretrizes:
+
+1. **Interpretação de Comandos**:
+   - Identifique a intenção: criar aviso (professores/coordenadores), evento/tarefa (estudantes), ou planejamento de estudos (estudantes).
+   - Extraia informações: título, descrição, data (YYYY-MM-DD), horário (HH:MM:SS), tipo de recorrência, etc.
+   - Se informações estiverem faltando, peça esclarecimentos via ação "clarify".
+   - Valide permissões com base no tipo de usuário (estudante, professor, coordenador). Aceite "estudante", "aluno", ou "student" como estudante.
+   - Use o fuso horário do Brasil (-03:00).
+
+2. **Formato de Resposta**:
+   - Sempre retorne um JSON válido: { "action": string, "endpoint": string, "method": string, "parameters": object, "message": string }.
+   - Ações:
+     - "execute": Chamar endpoint PHP com parâmetros.
+     - "clarify": Pedir mais informações.
+     - "text": Resposta genérica sem ação.
+   - Confirme ações com mensagens amigáveis.
+
+3. **Endpoints Disponíveis**:
+   - **Avisos** (professores/coordenadores):
+     - Endpoint: "cadastrar_aviso.php"
+     - Método: POST
+     - Parâmetros: tipo_aviso ('aviso', 'oportunidade'), titulo, descricao, data_inicial, tipo_recorrencia ('nao', 'semanal', 'mensal', 'anual'), ativo (boolean).
+   - **Planejamentos** (estudantes):
+     - Endpoint: "planejamento_estudos.php"
+     - Método: POST
+     - Parâmetros: dia_semana ('segunda', 'terca', etc.), horario_inicio, horario_fim, atividade, data_inicial, tipo_recorrencia ('nao', 'diario', 'semanal', 'mensal', 'anual'), ativo (boolean).
+   - **Eventos/Tarefas** (estudantes):
+     - Endpoint: "calendario-ajax.php"
+     - Método: POST
+     - Ação: "criar_planejamento"
+     - Parâmetros: atividade, horario_inicio, duracao (minutos), data, repetir ('nao', 'diario', 'semanal', 'mensal', 'anual').
+
+4. **Validações**:
+   - Verifique permissões antes de sugerir ações.
+   - Valide formatos de data (YYYY-MM-DD) e horário (HH:MM:SS).
+   - Se o comando for ambíguo, retorne { "action": "clarify", "message": "Por favor, especifique [detalhe faltante]." }.
+   - Se o usuário não tiver permissão, retorne { "action": "text", "message": "Você não tem permissão para essa ação. Tipo de usuário: [tipoUsuario]." }.
+
+5. **Exemplos**:
+   - Entrada: "Criar um aviso sobre reunião na sexta-feira às 10h" (professor)
+     - Saída: { "action": "execute", "endpoint": "cadastrar_aviso.php", "method": "POST", "parameters": { "tipo_aviso": "aviso", "titulo": "Reunião Geral", "descricao": "Reunião às 10h", "data_inicial": "2025-06-27", "tipo_recorrencia": "nao", "ativo": true }, "message": "Aviso sobre reunião criado!" }
+   - Entrada: "Planejar estudo de física toda segunda das 14h às 16h" (estudante)
+     - Saída: { "action": "execute", "endpoint": "planejamento_estudos.php", "method": "POST", "parameters": { "dia_semana": "segunda", "horario_inicio": "14:00:00", "horario_fim": "16:00:00", "atividade": "Estudar Física", "data_inicial": "2025-06-30", "tipo_recorrencia": "semanal", "ativo": true }, "message": "Planejamento de física criado!" }
+   - Entrada: "Adicionar tarefa para amanhã às 14h" (estudante)
+     - Saída: { "action": "execute", "endpoint": "calendario-ajax.php", "method": "POST", "parameters": { "acao": "criar_planejamento", "atividade": "Estudar", "horario_inicio": "14:00:00", "duracao": 60, "data": "2025-06-24", "repetir": "nao" }, "message": "Tarefa para amanhã criada!" }
+   - Entrada: "Criar aviso" (estudante)
+     - Saída: { "action": "text", "message": "Estudantes não podem criar avisos. Deseja criar uma tarefa ou planejamento? Tipo de usuário: estudante" }
+`;
 
   // Função para adicionar mensagens ao container
   function addMessage(text, sender) {
@@ -44,198 +108,111 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const result = await response.json();
-      console.log("Resposta do backend:", result); // Log para depuração
+      console.log("Resposta do backend:", result);
       return result.success
         ? result.message || "Ação realizada com sucesso!"
-        : result.message || "Erro ao processar a ação no servidor.";
+        : result.message || `Erro ao processar a ação no servidor. Detalhes: ${JSON.stringify(result)}`;
     } catch (error) {
       console.error("Erro ao chamar endpoint:", error);
       return "Erro ao conectar com o servidor. Tente novamente.";
     }
   }
 
-  // Função para processar comandos do usuário (substitui a IA)
-  function processUserCommand(userMessage) {
-    const lowerMessage = userMessage.toLowerCase();
-    const response = { action: "text", message: "Desculpe, não entendi o comando. Tente algo como 'criar aviso', 'planejar estudo' ou 'adicionar tarefa'." };
+  // Função para obter resposta da IA
+  async function getBotResponse(userMessage) {
+    let retries = 3;
+    while (retries > 0) {
+      try {
+        const typingIndicator = document.createElement("div");
+        typingIndicator.classList.add("message", "bot", "typing");
+        typingIndicator.textContent = "Digitando...";
+        messagesContainer.appendChild(typingIndicator);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-    // Regex para extrair datas (ex.: amanhã, sexta-feira, 23/06/2025)
-    const dateRegex = /(amanhã|hoje|\d{1,2}\/\d{1,2}\/\d{4}|[a-z]+-feira)/i;
-    const timeRegex = /(\d{1,2}(?::\d{2})?(?:\s*(?:h|horas))?)/i;
-    const durationRegex = /(\d+\s*(?:minutos|horas))/i;
-    const recurrenceRegex = /(todo\s*(?:dia|semana|mês|ano)|diario|semanal|mensal|anual)/i;
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [
+              { role: "system", content: systemPrompt },
+              { role: "user", content: `Usuário: ${tipoUsuario}, ID: ${usuarioId}. Mensagem: ${userMessage}` },
+            ],
+            max_tokens: 700,
+            temperature: 0.5,
+          }),
+        });
 
-    // Função para converter data textual em YYYY-MM-DD
-    function parseDate(dateStr) {
-      const today = new Date();
-      today.setHours(today.getHours() - 3); // Ajuste para fuso horário do Brasil (-03:00)
-      if (dateStr === "hoje") {
-        return today.toISOString().split("T")[0];
-      } else if (dateStr === "amanhã") {
-        today.setDate(today.getDate() + 1);
-        return today.toISOString().split("T")[0];
-      } else if (dateStr.match(/\d{1,2}\/\d{1,2}\/\d{4}/)) {
-        const [day, month, year] = dateStr.split("/");
-        return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-      } else if (dateStr.match(/[a-z]+-feira/)) {
-        const days = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta", "sabado"];
-        const targetDay = days.indexOf(dateStr.replace("-feira", ""));
-        if (targetDay === -1) return null;
-        const currentDay = today.getDay();
-        let daysToAdd = (targetDay - currentDay + 7) % 7;
-        if (daysToAdd === 0) daysToAdd = 7;
-        today.setDate(today.getDate() + daysToAdd);
-        return today.toISOString().split("T")[0];
+        typingIndicator.remove();
+
+        if (!response.ok) {
+          if (response.status === 429 && retries > 1) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            retries--;
+            continue;
+          }
+          throw new Error(`Erro na API da OpenAI: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Resposta da API:", data);
+
+        if (data.choices && data.choices.length > 0) {
+          let reply;
+          try {
+            reply = JSON.parse(data.choices[0].message.content.trim());
+            if (!reply.action || !reply.message) {
+              throw new Error("Resposta da IA não contém action ou message.");
+            }
+          } catch (e) {
+            console.error("Erro ao parsear resposta da IA:", e);
+            addMessage("Erro ao processar resposta da IA. Tente novamente.", "bot");
+            return;
+          }
+
+          localStorage.setItem(`${tipoUsuario}:${userMessage}`, JSON.stringify(reply));
+
+          if (reply.action === "execute") {
+            const backendMessage = await callBackendApi(reply.endpoint, reply.method, reply.parameters);
+            addMessage(`${reply.message} ${backendMessage}`, "bot");
+          } else {
+            addMessage(reply.message, "bot");
+          }
+          return;
+        } else {
+          throw new Error("Nenhuma escolha retornada pela API.");
+        }
+      } catch (error) {
+        console.error("Erro com a API da OpenAI:", error);
+        typingIndicator.remove();
+        addMessage(`Erro ao conectar com a API da OpenAI: ${error.message}. Tente novamente.`, "bot");
+        return;
       }
-      return null;
+    }
+    addMessage("Limite de requisições atingido. Tente novamente mais tarde.", "bot");
+  }
+
+  // Função de fallback para respostas genéricas
+  function fallbackBotResponse(userMessage) {
+    const lower = userMessage.toLowerCase();
+    let botText = `Desculpe, não entendi. Tente algo como 'criar aviso', 'planejar estudo' ou 'adicionar tarefa'. Tipo de usuário: ${tipoUsuario}`;
+
+    if (lower.includes("olá") || lower.includes("oi") || lower.includes("bom dia")) {
+      botText = `Olá! Como posso ajudar com a Facilita U? Tente criar um aviso, evento ou planejamento. Tipo de usuário: ${tipoUsuario}`;
+    } else if (lower.includes("matrícula") || lower.includes("inscricao")) {
+      botText = `Para matrículas, acesse o portal do aluno ou contate a secretaria. Posso ajudar com algo mais? Tipo de usuário: ${tipoUsuario}`;
+    } else if (lower.includes("horário") || lower.includes("aulas")) {
+      botText = `Consulte seus horários no portal. Quer planejar um estudo ou criar uma tarefa? Tipo de usuário: ${tipoUsuario}`;
+    } else if (lower.includes("biblioteca")) {
+      botText = `A biblioteca funciona das 8h às 22h (seg-sex). Posso criar um evento para você? Tipo de usuário: ${tipoUsuario}`;
+    } else if (lower.includes("obrigado") || lower.includes("agradecido")) {
+      botText = `De nada! Estou aqui para ajudar com avisos, eventos ou planejamentos. Tipo de usuário: ${tipoUsuario}`;
     }
 
-    // Função para converter horário em HH:MM:SS
-    function parseTime(timeStr) {
-      if (!timeStr) return "00:00:00";
-      const [hours, minutes = "00"] = timeStr.replace(/h|horas/i, "").split(":");
-      return `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}:00`;
-    }
-
-    // 1. Criar Aviso (professores/coordenadores)
-    if (lowerMessage.includes("criar aviso") && ["professor", "coordenador"].includes(tipoUsuario)) {
-      if (!lowerMessage.includes("sobre")) {
-        return { action: "clarify", message: "Por favor, informe o título ou descrição do aviso. Ex.: 'Criar aviso sobre reunião amanhã às 10h'" };
-      }
-
-      const title = userMessage.match(/sobre\s+(.+?)(?:\s+na\s+|\s+às\s+|$)/i)?.[1] || "Aviso Geral";
-      const dateMatch = userMessage.match(dateRegex)?.[0];
-      const timeMatch = userMessage.match(timeRegex)?.[0];
-      const recurrenceMatch = userMessage.match(recurrenceRegex)?.[0];
-      const date = dateMatch ? parseDate(dateMatch.toLowerCase()) : null;
-      const time = timeMatch ? parseTime(timeMatch) : null;
-      const recurrence = recurrenceMatch
-        ? recurrenceMatch.includes("diario") ? "diario"
-        : recurrenceMatch.includes("semanal") ? "semanal"
-        : recurrenceMatch.includes("mensal") ? "mensal"
-        : recurrenceMatch.includes("anual") ? "anual"
-        : "nao"
-        : "nao";
-
-      if (!date) {
-        return { action: "clarify", message: "Por favor, informe a data do aviso. Ex.: 'amanhã', 'sexta-feira' ou '23/06/2025'" };
-      }
-
-      return {
-        action: "execute",
-        endpoint: "cadastrar_aviso.php",
-        method: "POST",
-        parameters: {
-          tipo_aviso: "aviso",
-          titulo: title,
-          descricao: time ? `Aviso: ${title} às ${time.slice(0, 5)}` : `Aviso: ${title}`,
-          data_inicial: date,
-          tipo_recorrencia: recurrence,
-        },
-        message: `Aviso "${title}" criado!`,
-      };
-    } else if (lowerMessage.includes("criar aviso") && tipoUsuario === "estudante") {
-      return { action: "text", message: "Estudantes não podem criar avisos. Deseja criar uma tarefa ou planejamento?" };
-    }
-
-    // 2. Planejar Estudo (estudantes)
-    if (lowerMessage.includes("planejar estudo") && tipoUsuario === "estudante") {
-      const activityMatch = userMessage.match(/de\s+(.+?)(?:\s+todo|\s+na\s+|\s+das\s+|$)/i)?.[1];
-      const dayMatch = userMessage.match(/(segunda|terca|quarta|quinta|sexta|sabado|domingo)/i)?.[0];
-      const timeRangeMatch = userMessage.match(/das\s+(\d{1,2}(?::\d{2})?)\s*(?:h|horas)?\s*(?:às|ate)\s+(\d{1,2}(?::\d{2})?)\s*(?:h|horas)?/i);
-      const recurrenceMatch = userMessage.match(recurrenceRegex)?.[0];
-      const dateMatch = userMessage.match(dateRegex)?.[0];
-
-      if (!activityMatch) {
-        return { action: "clarify", message: "Por favor, informe a atividade do estudo. Ex.: 'Planejar estudo de física'" };
-      }
-      if (!dayMatch && !dateMatch) {
-        return { action: "clarify", message: "Por favor, informe o dia da semana ou a data inicial. Ex.: 'toda segunda' ou 'a partir de 23/06/2025'" };
-      }
-      if (!timeRangeMatch) {
-        return { action: "clarify", message: "Por favor, informe o horário do estudo. Ex.: 'das 14h às 16h'" };
-      }
-
-      const activity = activityMatch.trim();
-      const startTime = parseTime(timeRangeMatch[1]);
-      const endTime = parseTime(timeRangeMatch[2]);
-      const day = dayMatch ? dayMatch.toLowerCase() : null;
-      const date = dateMatch ? parseDate(dateMatch.toLowerCase()) : new Date().toISOString().split("T")[0];
-      const recurrence = recurrenceMatch
-        ? recurrenceMatch.includes("diario") ? "diario"
-        : recurrenceMatch.includes("semanal") ? "semanal"
-        : recurrenceMatch.includes("mensal") ? "mensal"
-        : recurrenceMatch.includes("anual") ? "anual"
-        : "nao"
-        : "semanal";
-
-      return {
-        action: "execute",
-        endpoint: "planejamento_estudos.php",
-        method: "POST",
-        parameters: {
-          dia_semana: day || "segunda",
-          horario_inicio: startTime,
-          horario_fim: endTime,
-          atividade: activity,
-          data_inicial: date,
-          tipo_recorrencia: recurrence,
-        },
-        message: `Planejamento de estudo para ${activity} criado!`,
-      };
-    } else if (lowerMessage.includes("planejar estudo") && !["estudante"].includes(tipoUsuario)) {
-      return { action: "text", message: "Apenas estudantes podem planejar estudos. Deseja criar um aviso?" };
-    }
-
-    // 3. Adicionar Tarefa/Evento (estudantes)
-    if ((lowerMessage.includes("adicionar tarefa") || lowerMessage.includes("criar evento")) && tipoUsuario === "estudante") {
-      const activityMatch = userMessage.match(/(?:tarefa|evento)\s+(?:para|de)\s+(.+?)(?:\s+na\s+|\s+às\s+|$)/i)?.[1];
-      const dateMatch = userMessage.match(dateRegex)?.[0];
-      const timeMatch = userMessage.match(timeRegex)?.[0];
-      const durationMatch = userMessage.match(durationRegex)?.[0];
-      const recurrenceMatch = userMessage.match(recurrenceRegex)?.[0];
-
-      if (!activityMatch) {
-        return { action: "clarify", message: "Por favor, informe a descrição da tarefa ou evento. Ex.: 'Adicionar tarefa para estudar matemática'" };
-      }
-      if (!dateMatch) {
-        return { action: "clarify", message: "Por favor, informe a data da tarefa/evento. Ex.: 'amanhã' ou '23/06/2025'" };
-      }
-      if (!timeMatch) {
-        return { action: "clarify", message: "Por favor, informe o horário da tarefa/evento. Ex.: 'às 14h'" };
-      }
-
-      const activity = activityMatch.trim();
-      const date = parseDate(dateMatch.toLowerCase());
-      const time = parseTime(timeMatch);
-      const duration = durationMatch ? parseInt(durationMatch.match(/\d+/)[0]) * (durationMatch.includes("horas") ? 60 : 1) : 60;
-      const recurrence = recurrenceMatch
-        ? recurrenceMatch.includes("diario") ? "diario"
-        : recurrenceMatch.includes("semanal") ? "semanal"
-        : recurrenceMatch.includes("mensal") ? "mensal"
-        : recurrenceMatch.includes("anual") ? "anual"
-        : "nao"
-        : "nao";
-
-      return {
-        action: "execute",
-        endpoint: "calendario-ajax.php",
-        method: "POST",
-        parameters: {
-          acao: "criar_planejamento",
-          atividade: activity,
-          horario_inicio: time,
-          duracao: duration,
-          data: date,
-          repetir: recurrence,
-        },
-        message: `Tarefa/evento "${activity}" criado!`,
-      };
-    } else if ((lowerMessage.includes("adicionar tarefa") || lowerMessage.includes("criar evento")) && !["estudante"].includes(tipoUsuario)) {
-      return { action: "text", message: "Apenas estudantes podem criar tarefas ou eventos. Deseja criar um aviso?" };
-    }
-
-    return response;
+    addMessage(botText, "bot");
   }
 
   // Evento de envio do formulário
@@ -244,19 +221,34 @@ document.addEventListener("DOMContentLoaded", () => {
     const userText = messageInput.value.trim();
 
     if (userText) {
-      addMessage(userText, "user");
-      const response = processUserCommand(userText);
-
-      if (response.action === "execute") {
-        callBackendApi(response.endpoint, response.method, response.parameters).then((backendMessage) => {
-          addMessage(`${response.message} ${backendMessage}`, "bot");
-        });
-      } else {
-        addMessage(response.message, "bot");
+      // Validação inicial de permissões
+      if (userText.toLowerCase().includes("criar aviso") && !isProfessorOrCoordenador) {
+        addMessage(`Estudantes não podem criar avisos. Deseja criar uma tarefa ou planejamento? Tipo de usuário: ${tipoUsuario}`, "bot");
+        messageInput.value = "";
+        messageInput.focus();
+        return;
       }
 
+      // Verifica cache
+      const cachedResponse = localStorage.getItem(`${tipoUsuario}:${userText}`);
+      if (cachedResponse) {
+        const reply = JSON.parse(cachedResponse);
+        if (reply.action === "execute") {
+          callBackendApi(reply.endpoint, reply.method, reply.parameters).then((backendMessage) => {
+            addMessage(`${reply.message} ${backendMessage}`, "bot");
+          });
+        } else {
+          addMessage(reply.message, "bot");
+        }
+        messageInput.value = "";
+        messageInput.focus();
+        return;
+      }
+
+      addMessage(userText, "user");
       messageInput.value = "";
       messageInput.focus();
+      getBotResponse(userText);
     } else {
       messageInput.style.border = "1px solid red";
       setTimeout(() => {
