@@ -11,9 +11,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const usuarioId = "<?php echo isset($_SESSION['usuario_id']) ? $_SESSION['usuario_id'] : ''; ?>";
   const tipoUsuario = "<?php echo isset($_SESSION['tipo']) ? $_SESSION['tipo'] : ''; ?>";
 
+  // Log para depuração
+  console.log("usuarioId:", usuarioId, "tipoUsuario:", tipoUsuario);
+
   // Verifica se o usuário está autenticado
   if (!usuarioId || !tipoUsuario) {
-    addMessage("Erro: Usuário não autenticado. Faça login novamente.", "bot");
+    addMessage("Erro: Usuário não autenticado. Verifique sua sessão e faça login novamente.", "bot");
     return;
   }
 
@@ -149,6 +152,8 @@ Você é um assistente virtual da Facilita U, uma plataforma para gestão acadê
         }
 
         const data = await response.json();
+        console.log("Resposta da API:", data); // Log para depuração
+
         if (data.choices && data.choices.length > 0) {
           let reply;
           try {
@@ -162,7 +167,6 @@ Você é um assistente virtual da Facilita U, uma plataforma para gestão acadê
             return;
           }
 
-          // Cache da resposta
           localStorage.setItem(`${tipoUsuario}:${userMessage}`, JSON.stringify(reply));
 
           if (reply.action === "execute") {
@@ -211,8 +215,8 @@ Você é um assistente virtual da Facilita U, uma plataforma para gestão acadê
     const userText = messageInput.value.trim();
 
     if (userText) {
-      // Validação inicial de permissões
-      if (userText.toLowerCase().includes("aviso") && tipoUsuario === "estudante") {
+      // Validação de permissões apenas para ações explícitas de aviso
+      if (userText.toLowerCase().includes("criar aviso") && tipoUsuario === "estudante") {
         addMessage("Estudantes não podem criar avisos. Deseja criar uma tarefa ou planejamento?", "bot");
         messageInput.value = "";
         messageInput.focus();
